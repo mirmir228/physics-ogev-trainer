@@ -1,27 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Физика ОГЭ — Тренажер</title>
+    <title>Физика ОГЭ — Конструктор схем</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            /* Цветовая схема Telegram (подстраивается под тему пользователя) */
-            --tg-theme-bg-color: #ffffff;
-            --tg-theme-text-color: #222222;
-            --tg-theme-hint-color: #a8a8a8;
-            --tg-theme-link-color: #2481cc;
-            --tg-theme-button-color: #3390ec;
-            --tg-theme-button-text-color: #ffffff;
-            --tg-theme-secondary-bg-color: #f4f4f9;
-
-            --accent-color: var(--tg-theme-button-color);
-            --bg-color: var(--tg-theme-bg-color);
-            --secondary-bg: var(--tg-theme-secondary-bg-color);
-            --text-color: var(--tg-theme-text-color);
-
+            --bg-color: var(--tg-theme-bg-color, #ffffff);
+            --text-color: var(--tg-theme-text-color, #222222);
+            --accent-color: var(--tg-theme-button-color, #3390ec);
+            --button-text: var(--tg-theme-button-text-color, #ffffff);
+            --secondary-bg: var(--tg-theme-secondary-bg-color, #f4f4f9);
+            --hint-color: var(--tg-theme-hint-color, #a8a8a8);
             --success-color: #4caf50;
             --error-color: #f44336;
         }
@@ -40,9 +31,8 @@
         }
 
         h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-            margin-top: 0;
+            font-size: 22px;
+            margin-bottom: 4px;
             text-align: center;
             background: linear-gradient(90deg, var(--accent-color), #8e44ad);
             -webkit-background-clip: text;
@@ -51,330 +41,281 @@
         }
 
         .subtitle {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color);
-            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--hint-color);
+            margin-bottom: 16px;
             text-align: center;
         }
 
-        /* Блок выбора лабораторной */
-        .lab-selector {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 16px;
-        }
-        select {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: 2px solid var(--secondary-bg);
-            border-radius: 16px;
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            appearance: none; /* убираем стрелку по умолчанию */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 20px;
-            cursor: pointer;
-            transition: border-color 0.2s;
-            font-weight: 600;
-        }
-        select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        /* Главная карточка */
         .card {
             background: var(--secondary-bg);
-            border-radius: 24px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 16px;
             width: 100%;
             max-width: 400px;
             box-sizing: border-box;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.03);
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 
-        .task-description {
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 16px;
-            color: var(--text-color);
-        }
-
-        .data-display {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            background: var(--bg-color);
-            border-radius: 16px;
-            padding: 16px;
-        }
-
-        .data-item {
-            text-align: center;
-        }
-
-        .data-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-        .data-unit {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color);
-            text-transform: uppercase;
-        }
-
-        /* Поле ввода и кнопка */
-        .input-group {
-            position: relative;
-            margin-top: 16px;
-        }
-        input {
-            width: 100%;
-            padding: 16px 20px;
+        h3 {
+            margin-top: 0;
             font-size: 16px;
-            border: none;
-            border-radius: 16px;
-            background-color: var(--bg-color);
-            box-sizing: border-box;
-            color: var(--text-color);
-            font-weight: 600;
+            margin-bottom: 10px;
         }
-        input:focus {
-            outline: 2px solid var(--accent-color);
-        }
-        input::placeholder {
-            color: var(--tg-theme-hint-color);
-            font-weight: 400;
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         button {
             background-color: var(--accent-color);
-            color: var(--tg-theme-button-text-color);
+            color: var(--button-text);
             border: none;
-            border-radius: 16px;
-            padding: 16px;
-            width: 100%;
-            font-size: 16px;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 16px;
-            transition: transform 0.1s, background-color 0.2s;
+            flex: 1;
+            transition: transform 0.1s, filter 0.2s;
         }
-        button:active {
-            transform: scale(0.98);
+        button:active { transform: scale(0.97); }
+        button.secondary {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--hint-color);
         }
-        button:hover {
-            filter: brightness(1.1);
+
+        .resistor-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 140px;
+            overflow-y: auto;
+            margin-bottom: 10px;
         }
+
+        .resistor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-color);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .resistor-item span {
+            color: var(--accent-color);
+        }
+
+        .del-btn {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 4px;
+            font-size: 16px;
+            flex: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--bg-color);
+            box-sizing: border-box;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        input:focus { outline: 2px solid var(--accent-color); }
 
         #result {
             font-weight: 600;
-            margin-top: 16px;
             text-align: center;
-            font-size: 15px;
-            padding: 10px;
-            border-radius: 12px;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 10px;
+            margin-top: 8px;
         }
 
-        /* Скрытые элементы для других лаб */
-        .params-container {
-            display: none; /* Появляется при выборе лабы */
+        .scheme-type {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
         }
+        .scheme-type label {
+            flex: 1;
+            background: var(--bg-color);
+            padding: 8px;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .scheme-type input[type="radio"] { display: none; }
+        .scheme-type input[type="radio"]:checked + span { color: var(--accent-color); }
+        .scheme-type label:has(input:checked) { border-color: var(--accent-color); }
     </style>
 </head>
 <body>
 
-    <h1>Физика ОГЭ</h1>
-    <div class="subtitle">Тренажер экспериментальных заданий</div>
+    <h1>Конструктор цепей</h1>
+    <div class="subtitle">Собери схему и рассчитай параметры</div>
 
-    <!-- ВЫБОР ЛАБОРАТОРНОЙ -->
-    <div class="lab-selector">
-        <select id="labType" onchange="loadLab()">
-            <option value="" disabled selected>— Выберите работу —</option>
-            <option value="ohm">1. Измерение сопротивления</option>
-            <option value="archimedes">2. Вычисление Архимедовой силы</option>
-            <option value="spring">3. Жесткость пружины</option>
-        </select>
+    <!-- НАСТРОЙКА ЦЕПИ -->
+    <div class="card">
+        <h3>1. Тип соединения</h3>
+        <div class="scheme-type">
+            <label>
+                <input type="radio" name="connection" value="series" checked onchange="updateCalc()">
+                <span>Последовательное</span>
+            </label>
+            <label>
+                <input type="radio" name="connection" value="parallel" onchange="updateCalc()">
+                <span>Параллельное</span>
+            </label>
+        </div>
+
+        <h3>2. Резисторы в цепи</h3>
+        <div class="btn-row">
+            <button onclick="addResistor()">+ Добавить резистор</button>
+            <button class="secondary" onclick="clearResistors()">Очистить</button>
+        </div>
+        <div id="resistorList" class="resistor-list">
+            <!-- Сюда добавляются резисторы -->
+        </div>
+       
+        <div style="font-size: 13px; color: var(--hint-color); text-align: center;">
+            Источник питания: <strong style="color: var(--text-color);">6.0 В</strong>
+        </div>
     </div>
 
-    <!-- ОСНОВНАЯ КАРТОЧКА ЗАДАНИЯ (скрыта до выбора)-->
-    <div id="mainCard" class="card" style="display: none;">
-        <div id="taskDesc" class="task-description"></div>
+    <!-- ПРОВЕРКА ЗНАЧЕНИЙ -->
+    <div class="card">
+        <h3>3. Проверка расчетов</h3>
+        <div style="font-size: 13px; margin-bottom: 8px;">Введите общее сопротивление цепи ($R_{общ}$ в Ом):</div>
+        <input type="number" id="userR" placeholder="Например: 15">
+       
+        <div style="font-size: 13px; margin-bottom: 8px;">Введите общий ток в цепи ($I_{общ}$ в А):</div>
+        <input type="number" id="userI" placeholder="Например: 0.4">
 
-        <!-- ОБЛАСТЬ ДЛЯ ВЫВОДА ДАННЫХ -->
-        <div id="dataBlock" class="data-display">
-            <div class="data-item">
-                <div id="val1" class="data-value">-</div>
-                <div id="unit1" class="data-unit">-</div>
-            </div>
-            <div class="data-item" id="block2" style="display: none;">
-                <div id="val2" class="data-value">-</div>
-                <div id="unit2" class="data-unit">-</div>
-            </div>
-            <div class="data-item" id="block3" style="display: none;">
-                <div id="val3" class="data-value">-</div>
-                <div id="unit3" class="data-unit">-</div>
-            </div>
-        </div>
-
-        <button onclick="generateTask()">Новые данные</button>
-
-        <div class="input-group">
-            <input type="number" id="userAnswer" placeholder="Ваш ответ...">
-        </div>
-
-        <button onclick="checkAnswer()">Проверить</button>
+        <button onclick="checkAnswers()">Проверить себя</button>
         <p id="result"></p>
     </div>
 
     <script>
-        // Инициализация Telegram Web App
         let tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
-        let currentLab = null;
-        let correctAnswer = null;
+        let resistors = [10, 20]; // Стартовые резисторы по умолчанию
 
-        // Данные для случайного выбора параметров
-        const labsData = {
-            'ohm': {
-                title: "Определение сопротивления резистора",
-                desc: "Соберите цепь с источником (6В), реостатом, амперметром и вольтметром (на резисторе). Используйте показания приборов.",
-                fields: 2, // кол-во полей данных
-                units: ["В", "А"], // единицы измерения
-                calc: function() {
-                    // Случайное сопротивление от 5 до 50 Ом
-                    let r = Math.floor(Math.random() * 46) + 5;
-                    let u = 6.0; // Источник 6В
-                    let i = u / r; // Идеальный ток
-
-                    // Погрешность (±0.2В для вольтметра, ±0.02А для амперметра)
-                    let errorU = (Math.random() - 0.5) * 0.2;
-                    let errorI = (Math.random() - 0.5) * 0.02;
-
-                    let measuredU = (u + errorU).toFixed(1);
-                    let measuredI = Math.max(0.01, i + errorI).toFixed(2);
-
-                    correctAnswer = r; // Ответ в Омах
-                    return [measuredU, measuredI];
-                }
-            },
-            'archimedes': {
-                title: "Вычисление Архимедовой силы",
-                desc: "Определите Архимедову силу, действующую на тело в жидкости. Используйте динамометр (цена деления 0.1Н).",
-                fields: 2,
-                units: ["Н", "Н"], // Вес в воздухе, вес в жидкости
-                calc: function() {
-                    // Плотность жидкости (Вода=1000, Керосин=800)
-                    let liquids = [1000, 800, 1260]; // Вода, Керосин, Глицерин
-                    let rho = liquids[Math.floor(Math.random() * liquids.length)];
-                    // Объем тела (от 50 до 200 мл)
-                    let volume = (Math.floor(Math.random() * 151) + 50) / 1000000;
-                    let g = 9.8;
-
-                    let fa = rho * volume * g;
-                    // Вес в воздухе (пусть будет плотность тела 2500 кг/м3)
-                    let weightAir = (2500 * volume * g);
-                    // Вес в воде
-                    let weightLiquid = weightAir - fa;
-
-                    // Добавляем погрешность динамометра (±0.05Н)
-                    let error = (Math.random() - 0.5) * 0.1;
-
-                    // Ответ - это разница
-                    correctAnswer = fa.toFixed(2); // Ответ - сама сила
-                    return [(weightAir + error).toFixed(2), (weightLiquid + error).toFixed(2)];
-                }
-            },
-            'spring': {
-                title: "Определение жесткости пружины",
-                desc: "Подвесьте груз к пружине и измерьте удлинение (линейка, цена деления 1 мм). Масса груза 100г.",
-                fields: 2,
-                units: ["кг", "см"],
-                calc: function() {
-                    // Жесткость от 10 до 40 Н/м
-                    let k = Math.floor(Math.random() * 31) + 10;
-                    let mass = 0.1; // 100 грамм
-                    let g = 9.8;
-                    let extension = (mass * g) / k; // Удлинение в метрах
-
-                    // Переводим в см и округляем до мм (погрешность ±1 мм = ±0.1 см)
-                    let extCm = extension * 100;
-                    let error = (Math.random() - 0.5) * 0.2;
-
-                    correctAnswer = k;
-                    return [mass.toFixed(1), (extCm + error).toFixed(1)];
-                }
-            }
-        };
-
-        function loadLab() {
-            let selector = document.getElementById('labType');
-            currentLab = labsData[selector.value];
-
-            if (!currentLab) return;
-
-            // Показываем карточку
-            let card = document.getElementById('mainCard');
-            card.style.display = 'block';
-
-            // Заголовки
-            document.getElementById('taskDesc').innerText = currentLab.desc;
-
-            // Настройка полей ввода
-            document.getElementById('unit1').innerText = currentLab.units[0];
-            document.getElementById('unit2').innerText = currentLab.units[1];
-
-            // Показываем/скрываем блоки данных
-            document.getElementById('block2').style.display = currentLab.fields > 1 ? 'block' : 'none';
-            document.getElementById('block3').style.display = currentLab.fields > 2 ? 'block' : 'none';
-
-            // Сбрасываем старый ответ и результат
-            document.getElementById('result').innerText = "";
-            document.getElementById('userAnswer').value = "";
-
-            generateTask();
-
-            // Прокручиваем вниз к карточке
-            card.scrollIntoView({behavior: "smooth"});
-        }
-
-        function generateTask() {
-            if (!currentLab) return;
-
-            let values = currentLab.calc();
-
-            document.getElementById('val1').innerText = values[0];
-            if (currentLab.fields > 1) document.getElementById('val2').innerText = values[1];
-            if (currentLab.fields > 2) document.getElementById('val3').innerText = values[2];
-
-            document.getElementById('result').innerText = "";
-            document.getElementById('userAnswer').value = "";
-        }
-
-        function checkAnswer() {
-            let userValStr = document.getElementById('userAnswer').value.replace(',', '.');
-            let userVal = parseFloat(userValStr);
-            let resultDiv = document.getElementById('result');
-
-            if (isNaN(userVal)) {
-                resultDiv.style.color = "var(--error-color)";
-                resultDiv.innerText = "⚠️ Пожалуйста, введите число!";
+        function renderResistors() {
+            let list = document.getElementById('resistorList');
+            list.innerHTML = "";
+           
+            if (resistors.length === 0) {
+                list.innerHTML = `<div style="text-align:center; color:var(--hint-color); padding: 10px;">Нет резисторов</div>`;
                 return;
             }
 
-            // Допускаем погрешность в пределах 7% для ОГЭ
-            let diff = Math.abs(userVal - correctAnswer);
-            let tolerance = correctAnswer * 0.07;
+            resistors.forEach((r, index) => {
+                let item = document.createElement('div');
+                item.className = 'resistor-item';
+                item.innerHTML = `Резистор #${index + 1}: <span>${r} Ом</span> <button class="del-btn" onclick="removeResistor(${index})">&times;</button>`;
+                list.appendChild(item);
+            });
+            updateCalc();
+        }
 
-            if (diff <= tolerance) {
+        function addResistor() {
+            // Случайный номинал от 5 до 50 Ом для удобства
+            let randomR = Math.floor(Math.random() * 10) * 5 + 5;
+            resistors.push(randomR);
+            renderResistors();
+        }
+
+        function removeResistor(index) {
+            resistors.splice(index, 1);
+            renderResistors();
+        }
+
+        function clearResistors() {
+            resistors = [];
+            renderResistors();
+        }
+
+        // Правильные расчеты на основе схемы
+        function getCorrectValues() {
+            if (resistors.length === 0) return { rTotal: 0, iTotal: 0 };
+           
+            let type = document.querySelector('input[name="connection"]:checked').value;
+            let rTotal = 0;
+
+            if (type === 'series') {
+                rTotal = resistors.reduce((sum, val) => sum + val, 0);
+            } else {
+                let inverseSum = resistors.reduce((sum, val) => sum + (1 / val), 0);
+                rTotal = 1 / inverseSum;
+            }
+
+            let uSource = 6.0;
+            let iTotal = uSource / rTotal;
+
+            return { rTotal: rTotal, iTotal: iTotal };
+        }
+
+        function updateCalc() {
+            // Функция-триггер при изменении схемы
+        }
+
+        function checkAnswers() {
+            let resultDiv = document.getElementById('result');
+            if (resistors.length === 0) {
+                resultDiv.style.color = "var(--error-color)";
+                resultDiv.innerText = "⚠️ Добавьте хотя бы один резистор!";
+                return;
+            }
+
+            let userR = parseFloat(document.getElementById('userR').value.replace(',', '.'));
+            let userI = parseFloat(document.getElementById('userI').value.replace(',', '.'));
+
+            if (isNaN(userR) || isNaN(userI)) {
+                resultDiv.style.color = "var(--error-color)";
+                resultDiv.innerText = "⚠️ Заполните оба поля числами!";
+                return;
+            }
+
+            let correct = getCorrectValues();
+           
+            // Погрешность 7%
+            let rCorrect = Math.abs(userR - correct.rTotal) <= (correct.rTotal * 0.07);
+            let iCorrect = Math.abs(userI - correct.iTotal) <= (correct.iTotal * 0.07);
+
+            if (rCorrect && iCorrect) {
                 resultDiv.style.color = "var(--success-color)";
-                resultDiv.innerText = "🎉 Верно! Отличная работа!";
+                resultDiv.innerText = "🎉 Всё верно! Отличный расчет цепи!";
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            } else {
+                resultDiv.style.color = "var(--error-color)";
+                resultDiv.innerText = `❌ Есть ошибка.\nПравильно: R ≈ ${correct.rTotal.toFixed(2)} Ом, I ≈ ${correct.iTotal.toFixed(2)} А`;
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+            }
+        }
 
+        // Инициализация при старте
+        renderResistors();
+    </script>
+</body>
+</html>
