@@ -22,7 +22,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 16px 16px 80px 16px; /* Отступ снизу для MainButton */
+            padding: 16px 16px 80px 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -132,7 +132,6 @@
         .slider-container { width: 100%; margin-top: 8px; display: none; }
         .slider-container label { font-size: 12px; color: var(--hint-color); display: block; margin-bottom: 4px; }
        
-        /* Стилизация ползунка реостата */
         input[type=range] { width: 100%; -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--accent-color); cursor: pointer; margin-top: -8px; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: rgba(0,0,0,0.1); border-radius: 3px; }
@@ -171,7 +170,8 @@
         <div class="components-grid">
             <button class="tool-btn" onclick="addEl('battery', '🔋 Источник (4.5В)')">🔋 Источник</button>
             <button class="tool-btn" onclick="addEl('key', '🔌 Ключ')">🔌 Ключ</button>
-            <button class="tool-btn" onclick="addEl('resistor10', '📦 Резистор 10 Ом')">📦 Рез. 10 Ом</button>
+            <!-- ТЕПЕРЬ ТУТ НЕИЗВЕСТНЫЙ РЕЗИСТОР -->
+            <button class="tool-btn" onclick="addEl('resistorSecret', '📦 Резистор Rx')">📦 Резистор Rx</button>
             <button class="tool-btn" onclick="addEl('bulb', '💡 Лампочка')">💡 Лампочка</button>
             <button class="tool-btn" onclick="addEl('rheostat', '🎛 Реостат')">🎛 Реостат</button>
             <button class="tool-btn" onclick="addEl('ammeter', '⏱ Амперметр')">⏱ Амперметр</button>
@@ -194,7 +194,8 @@
         <div class="slider-container" id="voltmeterTargetBox">
             <label>Куда подключен вольтметр?</label>
             <select id="vmTarget" onchange="updatePhysics()">
-                <option value="resistor10">К резистору 10 Ом</option>
+                <!-- ОБНОВЛЕНО ПОДКЛЮЧЕНИЕ ВОЛЬТМЕТРА -->
+                <option value="resistorSecret">К резистору Rx</option>
                 <option value="bulb">К лампочке</option>
             </select>
         </div>
@@ -223,18 +224,20 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Расширяем на весь экран
+        tg.expand();
         tg.ready();
 
-        // Физические константы цепи
         const V_SOURCE = 4.5;
-        const R_BULB = 5.0; // Сопротивление лампы
+        const R_BULB = 5.0;
+       
+        // Генерируем случайное сопротивление для резистора от 5 до 20 Ом
+        // Эта переменная создается заново при каждом обновлении страницы
+        const SECRET_R = Math.floor(Math.random() * 16) + 5;
 
         let circuit = [];
         let isClosed = false;
         let currentTask = 'resistor';
 
-        // Инициализация Telegram Main Button
         tg.MainButton.setText('ПРОВЕРИТЬ ОТВЕТ');
         tg.MainButton.show();
         tg.MainButton.onClick(() => checkAnswer());
@@ -243,7 +246,7 @@
             currentTask = document.getElementById('taskSelect').value;
             let desc = document.getElementById('taskDesc');
             if (currentTask === 'resistor') {
-                desc.innerText = "Цель: Определить сопротивление резистора. Соберите цепь, измерьте ток и напряжение на резисторе, рассчитайте R (Ом).";
+                desc.innerText = "Цель: Определить сопротивление резистора Rx. Соберите цепь, измерьте ток и напряжение на резисторе, рассчитайте R (Ом).";
             } else {
                 desc.innerText = "Цель: Определить мощность тока, выделяемую на лампочке. Рассчитайте P (Вт).";
             }
@@ -296,7 +299,6 @@
                     let chip = document.createElement('div');
                     chip.className = 'chip';
                    
-                    // Спец. отображение для лампы (светящийся кружок)
                     let extra = "";
                     if (el.id === 'bulb') extra = `<div class="bulb-glow" id="bulbGlow"></div>`;
                    
@@ -305,7 +307,6 @@
                 });
             }
 
-            // Управление UI элементов
             document.getElementById('rheostatControl').style.display = circuit.find(e => e.id === 'rheostat') ? 'block' : 'none';
             document.getElementById('voltmeterTargetBox').style.display = circuit.find(e => e.id === 'voltmeter') ? 'block' : 'none';
            
@@ -329,7 +330,9 @@
             let hasKey = circuit.find(e => e.id === 'key');
 
             let totalR = 0;
-            if (circuit.find(e => e.id === 'resistor10')) totalR += 10;
+            // ИСПОЛЬЗУЕМ ТАЙНОЕ ЗНАЧЕНИЕ СОПРОТИВЛЕНИЯ
+            if (circuit.find(e => e.id === 'resistorSecret')) totalR += SECRET_R;
+           
             if (circuit.find(e => e.id === 'bulb')) totalR += R_BULB;
             if (circuit.find(e => e.id === 'rheostat')) {
                 let rheoR = parseInt(document.getElementById('rheoSlider').value);
@@ -344,22 +347,19 @@
             if (isActive) {
                 I = V_SOURCE / totalR;
                
-                // Вычисляем напряжение на конкретном элементе для вольтметра
                 let target = document.getElementById('vmTarget').value;
-                if (target === 'resistor10' && circuit.find(e => e.id === 'resistor10')) {
-                    U_target = I * 10;
+                if (target === 'resistorSecret' && circuit.find(e => e.id === 'resistorSecret')) {
+                    U_target = I * SECRET_R; // НАПРЯЖЕНИЕ НА НЕИЗВЕСТНОМ РЕЗИСТОРЕ
                 } else if (target === 'bulb' && circuit.find(e => e.id === 'bulb')) {
                     U_target = I * R_BULB;
                 } else {
-                    U_target = 0; // Вольтметр подключен в пустоту
+                    U_target = 0;
                 }
             }
 
-            // Обновляем табло с небольшим "шумом" для реалистичности, как на ОГЭ (погрешность)
             document.getElementById('valI').innerText = hasAmmeter && isActive ? I.toFixed(2) : "--";
             document.getElementById('valU').innerText = hasVoltmeter && isActive ? U_target.toFixed(1) : "--";
 
-            // Свечение лампочки
             let bulbGlow = document.getElementById('bulbGlow');
             if (bulbGlow) {
                 if (isActive && I > 0) {
@@ -400,25 +400,22 @@
 
             let correctValue = 0;
             if (currentTask === 'resistor') {
-                correctValue = U / I; // R = U/I
+                correctValue = U / I;
             } else if (currentTask === 'power') {
-                correctValue = U * I; // P = U*I
+                correctValue = U * I;
             }
 
-            // Проверка с учетом погрешности (10%)
             if (Math.abs(ans - correctValue) <= correctValue * 0.1) {
                 tg.HapticFeedback.notificationOccurred('success');
                 showFeedback("🎉 Абсолютно верно! Молодец!", "var(--success)");
-                tg.confetti(); // Если поддерживается API Telegram
+                if (tg.confetti) tg.confetti();
             } else {
                 tg.HapticFeedback.notificationOccurred('error');
-                showFeedback(`❌ Ошибка. Ожидалось примерно ${correctValue.toFixed(1)}. Проверь расчеты.`, "var(--error)");
+                showFeedback(`❌ Ошибка. Попробуй еще раз (ожидалось около ${correctValue.toFixed(1)}).`, "var(--error)");
             }
         }
 
-        // Инициализация описания
         changeTask();
     </script>
 </body>
 </html>
-
