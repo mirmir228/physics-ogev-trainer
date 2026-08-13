@@ -1,4 +1,80 @@
-document.getElementById('voltValue').innerText = "0.0";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Черный ящик ОГЭ — Тренажер</title>
+    <!-- Подключаем скрипт Telegram Web App для поддержки вибрации и интеграции -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            padding: 16px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 12px;
+            padding: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Черный ящик ОГЭ</h2>
+
+    <div class="card">
+        <p>Напряжение: <span id="voltValue">0.0</span> В</p>
+        <p>Сила тока: <span id="ampValue">0.00</span> А</p>
+        <button onclick="makeMeasurement()">Снять показания</button>
+    </div>
+
+    <div class="card">
+        <label for="userAnswer">Введите сопротивление (Ом):</label>
+        <input type="number" id="userAnswer" placeholder="Например: 10">
+        <button onclick="checkAnswer()">Проверить</button>
+        <p id="result" style="font-weight: bold; margin-top: 10px;"></p>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Случайное сопротивление для задачи (например, от 5 до 25 Ом)
+        let currentR = Math.floor(Math.random() * 21) + 5;
+
+        function resetTask() {
+            document.getElementById('voltValue').innerText = "0.0";
             document.getElementById('ampValue').innerText = "0.00";
             document.getElementById('userAnswer').value = "";
             document.getElementById('result').innerText = "";
@@ -7,8 +83,8 @@ document.getElementById('voltValue').innerText = "0.0";
         function makeMeasurement() {
             // Добавляем небольшую случайную погрешность измерений (как в реальном приборе)
             let voltageSource = 6.0; // Источник 6В
-            trueI = voltageSource / currentR;
-            trueU = trueI * currentR;
+            let trueI = voltageSource / currentR;
+            let trueU = trueI * currentR;
 
             // Погрешность амперметра/вольтметра
             let errorU = (Math.random() - 0.5) * 0.2;
@@ -31,7 +107,7 @@ document.getElementById('voltValue').innerText = "0.0";
                 return;
             }
 
-            // Допускаем погрешность в пределах 5%
+            // Допускаем погрешность в пределах 7%
             let diff = Math.abs(userVal - currentR);
             if (diff <= currentR * 0.07) {
                 resultDiv.style.color = "#00aa00";
@@ -41,7 +117,7 @@ document.getElementById('voltValue').innerText = "0.0";
                 }
             } else {
                 resultDiv.style.color = "#cc0000";
-                resultDiv.innerText = ❌ Неверно. Правильное значение около ${currentR} Ом.;
+                resultDiv.innerText = "❌ Неверно. Правильное значение около " + currentR + " Ом.";
                 if (tg.HapticFeedback) {
                     tg.HapticFeedback.notificationOccurred('error');
                 }
@@ -49,7 +125,7 @@ document.getElementById('voltValue').innerText = "0.0";
         }
 
         // Инициализация при старте
-        generateTask();
+        resetTask();
     </script>
 </body>
 </html>
