@@ -30,130 +30,24 @@
             box-sizing: border-box;
         }
 
-        h1 {
-            font-size: 20px;
-            margin-bottom: 4px;
-            margin-top: 0;
-            text-align: center;
-            font-weight: 700;
-        }
+        h1 { font-size: 20px; margin-bottom: 4px; margin-top: 0; text-align: center; font-weight: 700; }
+        .subtitle { font-size: 13px; color: var(--hint-color); margin-bottom: 16px; text-align: center; }
+        .card { background: var(--secondary-bg); border-radius: 16px; padding: 14px; width: 100%; max-width: 400px; box-sizing: border-box; margin-bottom: 12px; }
+        h3 { margin-top: 0; font-size: 14px; margin-bottom: 8px; color: var(--accent-color); }
+        .components-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
 
-        .subtitle {
-            font-size: 13px;
-            color: var(--hint-color);
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .card {
-            background: var(--secondary-bg);
-            border-radius: 16px;
-            padding: 14px;
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            margin-bottom: 12px;
-        }
-
-        h3 {
-            margin-top: 0;
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: var(--accent-color);
-        }
-
-        .components-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-
-        button {
-            background-color: var(--accent-color);
-            color: var(--button-text);
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
+        button { background-color: var(--accent-color); color: var(--button-text); border: none; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: transform 0.1s; }
         button:active { transform: scale(0.97); }
-        button.secondary {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--hint-color);
-        }
+        button.secondary { background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--hint-color); }
 
-        .workspace {
-            background: var(--bg-color);
-            border: 2px dashed var(--hint-color);
-            border-radius: 12px;
-            padding: 10px;
-            min-height: 80px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
+        .workspace { background: var(--bg-color); border: 2px dashed var(--hint-color); border-radius: 12px; padding: 10px; min-height: 80px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+        .chip { background: var(--secondary-bg); padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid rgba(0,0,0,0.05); }
+        .chip button { background: none; border: none; color: var(--error-color); font-size: 14px; padding: 0; cursor: pointer; }
 
-        .chip {
-            background: var(--secondary-bg);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .chip span { color: var(--accent-color); }
-        .chip button {
-            background: none;
-            border: none;
-            color: var(--error-color);
-            font-size: 14px;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .meters {
-            display: flex;
-            justify-content: space-around;
-            background: var(--bg-color);
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            font-size: 15px;
-            border: none;
-            border-radius: 10px;
-            background-color: var(--bg-color);
-            box-sizing: border-box;
-            color: var(--text-color);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
+        .meters { display: flex; justify-content: space-around; background: var(--bg-color); padding: 10px; border-radius: 10px; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+        input { width: 100%; padding: 12px; font-size: 15px; border: none; border-radius: 10px; background-color: var(--bg-color); box-sizing: border-box; color: var(--text-color); font-weight: 600; margin-bottom: 8px; }
         input:focus { outline: 2px solid var(--accent-color); }
-
-        #result {
-            font-weight: 600;
-            text-align: center;
-            font-size: 13px;
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 6px;
-        }
+        #result { font-weight: 600; text-align: center; font-size: 13px; padding: 8px; border-radius: 8px; margin-top: 6px; }
     </style>
 </head>
 <body>
@@ -161,7 +55,6 @@
     <h1>Лабораторный стол</h1>
     <div class="subtitle">Собери схему для ОГЭ</div>
 
-    <!-- ПАНЕЛЬ КОМПОНЕНТОВ -->
     <div class="card">
         <h3>Добавить элементы в цепь:</h3>
         <div class="components-grid">
@@ -174,20 +67,17 @@
         </div>
     </div>
 
-    <!-- СОБРАННАЯ СХЕМА -->
     <div class="card">
         <h3>Собранная схема:</h3>
         <div id="workspace" class="workspace">
             <span style="color: var(--hint-color); font-size: 12px; width: 100%; text-align: center;">Стол пуст. Добавьте элементы выше.</span>
         </div>
-       
         <div style="display: flex; gap: 6px;">
             <button id="switchBtn" class="secondary" onclick="toggleKey()" style="flex: 1; display: none;">Состояние ключа: Разомкнут</button>
             <button class="secondary" onclick="clearTable()" style="flex: 0.5;">Очистить</button>
         </div>
     </div>
 
-    <!-- ПОКАЗАНИЯ ПРИБОРОВ -->
     <div class="card">
         <h3>Показания приборов:</h3>
         <div class="meters">
@@ -196,7 +86,6 @@
         </div>
     </div>
 
-    <!-- ПРОВЕРКА -->
     <div class="card">
         <h3>Проверка ответа (ОГЭ):</h3>
         <input type="number" id="userAnswer" placeholder="Введите сопротивление (Ом)...">
@@ -232,32 +121,25 @@
             keyClosed = !keyClosed;
             let btn = document.getElementById('switchBtn');
             btn.innerText = keyClosed ? "Состояние ключа: Замкнут" : "Состояние ключа: Разомкнут";
-            btn.style.borderColor = keyClosed ? "var(--success-color)" : "var(--hint-color)";
             updateMeters();
         }
 
         function renderWorkspace() {
             let ws = document.getElementById('workspace');
             ws.innerHTML = "";
-
-            let hasKey = elements.includes('Ключ');
             let switchBtn = document.getElementById('switchBtn');
-            switchBtn.style.display = hasKey ? "block" : "none";
+            switchBtn.style.display = elements.includes('Ключ') ? "block" : "none";
 
             if (elements.length === 0) {
                 ws.innerHTML = `<span style="color: var(--hint-color); font-size: 12px; width: 100%; text-align: center;">Стол пуст. Добавьте элементы выше.</span>`;
-                document.getElementById('voltVal').innerText = "0.0";
-                document.getElementById('ampVal').innerText = "0.00";
-                return;
+            } else {
+                elements.forEach((el, index) => {
+                    let chip = document.createElement('div');
+                    chip.className = 'chip';
+                    chip.innerHTML = `${el} <button onclick="removeElement(${index})">&times;</button>`;
+                    ws.appendChild(chip);
+                });
             }
-
-            elements.forEach((el, index) => {
-                let chip = document.createElement('div');
-                chip.className = 'chip';
-                chip.innerHTML = `${el} <button onclick="removeElement(${index})">&times;</button>`;
-                ws.appendChild(chip);
-            });
-
             updateMeters();
         }
 
@@ -266,27 +148,18 @@
             let hasKey = elements.includes('Ключ');
             let hasAmmeter = elements.includes('Амперметр');
             let hasVoltmeter = elements.includes('Вольтметр');
-
-            // Считаем суммарное сопротивление резисторов
             let totalR = 0;
             elements.forEach(el => {
                 if (el.includes('10 Ом')) totalR += 10;
                 if (el.includes('20 Ом')) totalR += 20;
             });
-
-            // Цепь работает, если есть источник, резисторы, и (если есть ключ — он замкнут)
             let circuitActive = hasSource && totalR > 0 && (!hasKey || keyClosed);
 
             if (circuitActive) {
                 let u = 6.0;
                 let i = u / totalR;
-               
-                // Добавляем погрешность
-                let measuredU = hasVoltmeter ? (u + (Math.random() - 0.5) * 0.1).toFixed(1) : "—";
-                let measuredI = hasAmmeter ? (i + (Math.random() - 0.5) * 0.01).toFixed(2) : "—";
-
-                document.getElementById('voltVal').innerText = measuredU;
-                document.getElementById('ampVal').innerText = measuredI;
+                document.getElementById('voltVal').innerText = hasVoltmeter ? u.toFixed(1) : "—";
+                document.getElementById('ampVal').innerText = hasAmmeter ? i.toFixed(2) : "—";
             } else {
                 document.getElementById('voltVal').innerText = "0.0";
                 document.getElementById('ampVal').innerText = "0.00";
@@ -294,9 +167,8 @@
         }
 
         function checkAnswer() {
-            let userVal = parseFloat(document.getElementById('userAnswer'].value.replace(',', '.'));
+            let userVal = parseFloat(document.getElementById('userAnswer').value.replace(',', '.'));
             let resultDiv = document.getElementById('result');
-
             let totalR = 0;
             elements.forEach(el => {
                 if (el.includes('10 Ом')) totalR += 10;
@@ -305,27 +177,24 @@
 
             if (totalR === 0) {
                 resultDiv.style.color = "var(--error-color)";
-                resultDiv.innerText = "⚠️ Соберите цепь с резисторами!";
+                resultDiv.innerText = "⚠️ Сначала добавьте резистор!";
                 return;
             }
-
             if (isNaN(userVal)) {
                 resultDiv.style.color = "var(--error-color)";
                 resultDiv.innerText = "⚠️ Введите число!";
                 return;
             }
-
-            let diff = Math.abs(userVal - totalR);
-            if (diff <= totalR * 0.08) {
+            if (Math.abs(userVal - totalR) <= totalR * 0.08) {
                 resultDiv.style.color = "var(--success-color)";
-                resultDiv.innerText = "🎉 Верно! Сопротивление найдено правильно.";
+                resultDiv.innerText = "🎉 Верно!";
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             } else {
                 resultDiv.style.color = "var(--error-color)";
-                resultDiv.innerText = "❌ Неверно. Проверьте расчеты по закону Ома.";
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                resultDiv.innerText = "❌ Неверно. Попробуйте еще раз.";
             }
         }
     </script>
 </body>
 </html>
+
