@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Физика ОГЭ — Тренажер</title>
+    <title>Конструктор цепей ОГЭ</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -31,148 +31,176 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 4px;
             margin-top: 0;
             text-align: center;
-            background: linear-gradient(90deg, var(--accent-color), #8e44ad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            font-weight: 700;
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--hint-color);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-align: center;
         }
 
-        .lab-selector {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 16px;
-        }
-
-        select {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: 2px solid var(--secondary-bg);
-            border-radius: 16px;
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 20px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        select:focus { outline: none; border-color: var(--accent-color); }
-
         .card {
             background: var(--secondary-bg);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 14px;
             width: 100%;
             max-width: 400px;
             box-sizing: border-box;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 12px;
         }
 
-        .task-description {
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 16px;
+        h3 {
+            margin-top: 0;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--accent-color);
         }
 
-        .data-display {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 16px;
-            background: var(--bg-color);
-            border-radius: 14px;
-            padding: 14px;
+        .components-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
         }
-
-        .data-item { text-align: center; }
-        .data-value { font-size: 26px; font-weight: 700; color: var(--accent-color); }
-        .data-unit { font-size: 12px; color: var(--hint-color); text-transform: uppercase; }
-
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: none;
-            border-radius: 14px;
-            background-color: var(--bg-color);
-            box-sizing: border-box;
-            color: var(--text-color);
-            font-weight: 600;
-            margin-top: 10px;
-        }
-        input:focus { outline: 2px solid var(--accent-color); }
 
         button {
             background-color: var(--accent-color);
             color: var(--button-text);
             border: none;
-            border-radius: 14px;
-            padding: 14px;
-            width: 100%;
-            font-size: 16px;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 12px;
             transition: transform 0.1s;
         }
-        button:active { transform: scale(0.98); }
+        button:active { transform: scale(0.97); }
+        button.secondary {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--hint-color);
+        }
+
+        .workspace {
+            background: var(--bg-color);
+            border: 2px dashed var(--hint-color);
+            border-radius: 12px;
+            padding: 10px;
+            min-height: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chip {
+            background: var(--secondary-bg);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .chip span { color: var(--accent-color); }
+        .chip button {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            font-size: 14px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .meters {
+            display: flex;
+            justify-content: space-around;
+            background: var(--bg-color);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--bg-color);
+            box-sizing: border-box;
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        input:focus { outline: 2px solid var(--accent-color); }
 
         #result {
             font-weight: 600;
-            margin-top: 12px;
             text-align: center;
-            font-size: 14px;
-            padding: 10px;
-            border-radius: 10px;
+            font-size: 13px;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 6px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Физика ОГЭ</h1>
-    <div class="subtitle">Тренажер экспериментальных заданий</div>
+    <h1>Лабораторный стол</h1>
+    <div class="subtitle">Собери схему для ОГЭ</div>
 
-    <div class="lab-selector">
-        <select id="labType" onchange="loadLab()">
-            <option value="" disabled selected>— Выберите работу —</option>
-            <option value="ohm">1. Измерение сопротивления</option>
-            <option value="archimedes">2. Вычисление Архимедовой силы</option>
-            <option value="spring">3. Жесткость пружины</option>
-        </select>
+    <!-- ПАНЕЛЬ КОМПОНЕНТОВ -->
+    <div class="card">
+        <h3>Добавить элементы в цепь:</h3>
+        <div class="components-grid">
+            <button class="secondary" onclick="addElement('Источник 6В')">⚡ Источник 6В</button>
+            <button class="secondary" onclick="addElement('Ключ')">🔌 Ключ</button>
+            <button class="secondary" onclick="addElement('Резистор 10 Ом')">📦 Резистор 10 Ом</button>
+            <button class="secondary" onclick="addElement('Резистор 20 Ом')">📦 Резистор 20 Ом</button>
+            <button class="secondary" onclick="addElement('Амперметр')">⏱ Амперметр</button>
+            <button class="secondary" onclick="addElement('Вольтметр')">📊 Вольтметр</button>
+        </div>
     </div>
 
-    <div id="mainCard" class="card" style="display: none;">
-        <div id="taskDesc" class="task-description"></div>
-
-        <div id="dataBlock" class="data-display">
-            <div class="data-item">
-                <div id="val1" class="data-value">-</div>
-                <div id="unit1" class="data-unit">-</div>
-            </div>
-            <div class="data-item" id="block2">
-                <div id="val2" class="data-value">-</div>
-                <div id="unit2" class="data-unit">-</div>
-            </div>
+    <!-- СОБРАННАЯ СХЕМА -->
+    <div class="card">
+        <h3>Собранная схема:</h3>
+        <div id="workspace" class="workspace">
+            <span style="color: var(--hint-color); font-size: 12px; width: 100%; text-align: center;">Стол пуст. Добавьте элементы выше.</span>
         </div>
        
-        <button onclick="generateTask()" style="background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--hint-color);">Новые данные</button>
+        <div style="display: flex; gap: 6px;">
+            <button id="switchBtn" class="secondary" onclick="toggleKey()" style="flex: 1; display: none;">Состояние ключа: Разомкнут</button>
+            <button class="secondary" onclick="clearTable()" style="flex: 0.5;">Очистить</button>
+        </div>
+    </div>
 
-        <input type="number" id="userAnswer" placeholder="Ваш ответ...">
-        <button onclick="checkAnswer()">Проверить</button>
+    <!-- ПОКАЗАНИЯ ПРИБОРОВ -->
+    <div class="card">
+        <h3>Показания приборов:</h3>
+        <div class="meters">
+            <div>U = <span id="voltVal">0.0</span> В</div>
+            <div>I = <span id="ampVal">0.00</span> А</div>
+        </div>
+    </div>
+
+    <!-- ПРОВЕРКА -->
+    <div class="card">
+        <h3>Проверка ответа (ОГЭ):</h3>
+        <input type="number" id="userAnswer" placeholder="Введите сопротивление (Ом)...">
+        <button onclick="checkAnswer()">Проверить результат</button>
         <p id="result"></p>
     </div>
 
@@ -181,87 +209,120 @@
         tg.expand();
         tg.ready();
 
-        let currentLab = null;
-        let correctAnswer = null;
+        let elements = [];
+        let keyClosed = false;
 
-        const labsData = {
-            'ohm': {
-                desc: "Используя источник питания (6В), амперметр и вольтметр, определите сопротивление резистора.",
-                units: ["В", "А"],
-                calc: function() {
-                    let r = Math.floor(Math.random() * 41) + 10;
-                    let u = 6.0;
-                    let i = u / r;
-                    let measuredU = (u + (Math.random() - 0.5) * 0.2).toFixed(1);
-                    let measuredI = Math.max(0.01, i + (Math.random() - 0.5) * 0.02).toFixed(2);
-                    correctAnswer = r;
-                    return [measuredU, measuredI];
-                }
-            },
-            'archimedes': {
-                desc: "Определите Архимедову силу, действующую на тело, погруженное в жидкость, с помощью динамометра.",
-                units: ["Н (воздух)", "Н (вода)"],
-                calc: function() {
-                    let volume = (Math.floor(Math.random() * 101) + 50) / 1000000;
-                    let fa = 1000 * volume * 9.8;
-                    let weightAir = 2.5 * fa;
-                    let weightLiquid = weightAir - fa;
-                    correctAnswer = parseFloat(fa.toFixed(2));
-                    return [weightAir.toFixed(2), weightLiquid.toFixed(2)];
-                }
-            },
-            'spring': {
-                desc: "Определите жесткость пружины, подвесив к ней груз массой 100 г и измерив удлинение линейкой.",
-                units: ["кг", "см"],
-                calc: function() {
-                    let k = Math.floor(Math.random() * 30) + 10;
-                    let extension = (0.1 * 9.8 / k) * 100;
-                    correctAnswer = k;
-                    return ["0.1", extension.toFixed(1)];
-                }
-            }
-        };
-
-        function loadLab() {
-            let selector = document.getElementById('labType');
-            currentLab = labsData[selector.value];
-            if (!currentLab) return;
-
-            document.getElementById('mainCard').style.display = 'block';
-            document.getElementById('taskDesc').innerText = currentLab.desc;
-            document.getElementById('unit1').innerText = currentLab.units[0];
-            document.getElementById('unit2').innerText = currentLab.units[1];
-
-            generateTask();
+        function addElement(name) {
+            elements.push(name);
+            renderWorkspace();
         }
 
-        function generateTask() {
-            if (!currentLab) return;
-            let values = currentLab.calc();
-            document.getElementById('val1').innerText = values[0];
-            document.getElementById('val2').innerText = values[1];
-            document.getElementById('result').innerText = "";
-            document.getElementById('userAnswer').value = "";
+        function removeElement(index) {
+            elements.splice(index, 1);
+            renderWorkspace();
+        }
+
+        function clearTable() {
+            elements = [];
+            keyClosed = false;
+            renderWorkspace();
+        }
+
+        function toggleKey() {
+            keyClosed = !keyClosed;
+            let btn = document.getElementById('switchBtn');
+            btn.innerText = keyClosed ? "Состояние ключа: Замкнут" : "Состояние ключа: Разомкнут";
+            btn.style.borderColor = keyClosed ? "var(--success-color)" : "var(--hint-color)";
+            updateMeters();
+        }
+
+        function renderWorkspace() {
+            let ws = document.getElementById('workspace');
+            ws.innerHTML = "";
+
+            let hasKey = elements.includes('Ключ');
+            let switchBtn = document.getElementById('switchBtn');
+            switchBtn.style.display = hasKey ? "block" : "none";
+
+            if (elements.length === 0) {
+                ws.innerHTML = `<span style="color: var(--hint-color); font-size: 12px; width: 100%; text-align: center;">Стол пуст. Добавьте элементы выше.</span>`;
+                document.getElementById('voltVal').innerText = "0.0";
+                document.getElementById('ampVal').innerText = "0.00";
+                return;
+            }
+
+            elements.forEach((el, index) => {
+                let chip = document.createElement('div');
+                chip.className = 'chip';
+                chip.innerHTML = `${el} <button onclick="removeElement(${index})">&times;</button>`;
+                ws.appendChild(chip);
+            });
+
+            updateMeters();
+        }
+
+        function updateMeters() {
+            let hasSource = elements.includes('Источник 6В');
+            let hasKey = elements.includes('Ключ');
+            let hasAmmeter = elements.includes('Амперметр');
+            let hasVoltmeter = elements.includes('Вольтметр');
+
+            // Считаем суммарное сопротивление резисторов
+            let totalR = 0;
+            elements.forEach(el => {
+                if (el.includes('10 Ом')) totalR += 10;
+                if (el.includes('20 Ом')) totalR += 20;
+            });
+
+            // Цепь работает, если есть источник, резисторы, и (если есть ключ — он замкнут)
+            let circuitActive = hasSource && totalR > 0 && (!hasKey || keyClosed);
+
+            if (circuitActive) {
+                let u = 6.0;
+                let i = u / totalR;
+               
+                // Добавляем погрешность
+                let measuredU = hasVoltmeter ? (u + (Math.random() - 0.5) * 0.1).toFixed(1) : "—";
+                let measuredI = hasAmmeter ? (i + (Math.random() - 0.5) * 0.01).toFixed(2) : "—";
+
+                document.getElementById('voltVal').innerText = measuredU;
+                document.getElementById('ampVal').innerText = measuredI;
+            } else {
+                document.getElementById('voltVal').innerText = "0.0";
+                document.getElementById('ampVal').innerText = "0.00";
+            }
         }
 
         function checkAnswer() {
-            let userVal = parseFloat(document.getElementById('userAnswer').value.replace(',', '.'));
+            let userVal = parseFloat(document.getElementById('userAnswer'].value.replace(',', '.'));
             let resultDiv = document.getElementById('result');
-           
+
+            let totalR = 0;
+            elements.forEach(el => {
+                if (el.includes('10 Ом')) totalR += 10;
+                if (el.includes('20 Ом')) totalR += 20;
+            });
+
+            if (totalR === 0) {
+                resultDiv.style.color = "var(--error-color)";
+                resultDiv.innerText = "⚠️ Соберите цепь с резисторами!";
+                return;
+            }
+
             if (isNaN(userVal)) {
                 resultDiv.style.color = "var(--error-color)";
                 resultDiv.innerText = "⚠️ Введите число!";
                 return;
             }
-           
-            let diff = Math.abs(userVal - correctAnswer);
-            if (diff <= correctAnswer * 0.08) {
+
+            let diff = Math.abs(userVal - totalR);
+            if (diff <= totalR * 0.08) {
                 resultDiv.style.color = "var(--success-color)";
-                resultDiv.innerText = "🎉 Верно!";
+                resultDiv.innerText = "🎉 Верно! Сопротивление найдено правильно.";
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             } else {
                 resultDiv.style.color = "var(--error-color)";
-                resultDiv.innerText = "❌ Неверно. Правильно: ≈ " + correctAnswer;
+                resultDiv.innerText = "❌ Неверно. Проверьте расчеты по закону Ома.";
                 if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
             }
         }
