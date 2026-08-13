@@ -5,25 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Лаборатория ОГЭ</title>
    
-    <!-- Подключаем современный шрифт Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-   
-    <!-- Подключаем Telegram Web App API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
    
     <style>
-        /* СОВРЕМЕННЫЙ ДИЗАЙН (Apple / Glassmorphism style) */
         :root {
-            --bg-body: #f4f7f9;
-            --bg-card: #ffffff;
-            --primary: #007AFF;
-            --text-main: #1c1c1e;
-            --text-muted: #8e8e93;
-            --border: #e5e5ea;
-            --danger: #ff3b30;
-            --success: #34c759;
+            --bg-body: #f4f7f9; --bg-card: #ffffff; --primary: #007AFF;
+            --text-main: #1c1c1e; --text-muted: #8e8e93; --border: #e5e5ea;
+            --danger: #ff3b30; --success: #34c759; --wire: #94a3b8;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
         }
 
@@ -31,158 +22,95 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px 16px 100px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            background-color: var(--bg-body); color: var(--text-main);
+            margin: 0; padding: 20px 16px 100px 16px;
+            display: flex; flex-direction: column; gap: 16px;
         }
 
-        /* Заголовок */
         .header { text-align: center; margin-bottom: 8px; }
         .header h1 { font-size: 24px; font-weight: 700; margin: 0 0 4px 0; color: #1c1c1e; letter-spacing: -0.5px; }
         .header p { font-size: 14px; margin: 0; color: var(--text-muted); font-weight: 500; }
 
-        /* Карточки */
         .card {
-            background-color: var(--bg-card);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(0,0,0,0.02);
+            background-color: var(--bg-card); border-radius: 20px; padding: 20px;
+            box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);
         }
        
-        .card-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .card-title { font-size: 13px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 6px; }
 
-        /* Элементы форм */
         select, input[type="number"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1.5px solid var(--border);
-            border-radius: 14px;
-            background: #fafafa;
-            color: var(--text-main);
-            font-size: 15px;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.2s ease;
-            font-family: inherit;
+            width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 14px;
+            background: #fafafa; color: var(--text-main); font-size: 15px; font-weight: 500; outline: none; transition: all 0.2s ease; font-family: inherit;
         }
-        select:focus, input[type="number"]:focus {
-            border-color: var(--primary);
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
-        }
+        select:focus, input[type="number"]:focus { border-color: var(--primary); background: #ffffff; box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1); }
 
-        /* КИМ (Экзаменационный билет) */
         .oge-ticket {
-            background-color: #fffdf8;
-            color: #111;
-            font-family: "Times New Roman", Times, serif;
-            border: 1px solid #d1d5db;
-            padding: 20px;
-            font-size: 16px;
-            line-height: 1.5;
-            border-radius: 8px;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.03), inset 0 0 20px rgba(0,0,0,0.01);
-            margin: 16px 0;
-            position: relative;
+            background-color: #fffdf8; color: #111; font-family: "Times New Roman", Times, serif;
+            border: 1px solid #d1d5db; padding: 20px; font-size: 16px; line-height: 1.5;
+            border-radius: 8px; box-shadow: 2px 2px 8px rgba(0,0,0,0.03), inset 0 0 20px rgba(0,0,0,0.01); margin: 16px 0; position: relative;
         }
-        /* Декоративная скрепка/зажим для эффекта листа */
-        .oge-ticket::before {
-            content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 12px; background: #e5e5ea; border-radius: 6px; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1);
-        }
+        .oge-ticket::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 40px; height: 12px; background: #e5e5ea; border-radius: 6px; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1); }
         .oge-ticket b { font-weight: bold; }
         .oge-list { margin-top: 12px; padding-left: 0; list-style: none; }
         .oge-list li { margin-bottom: 6px; }
        
-        .refresh-btn {
-            width: 100%; padding: 12px; font-size: 14px; font-weight: 600; border-radius: 12px;
-            background: #f1f5f9; color: #475569; border: none; cursor: pointer; transition: 0.2s;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
+        .refresh-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 600; border-radius: 12px; background: #f1f5f9; color: #475569; border: none; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .refresh-btn:active { background: #e2e8f0; transform: scale(0.98); }
 
-        /* Кнопки деталей */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
-       
-        .btn-add {
-            background-color: #ffffff; color: var(--text-main);
-            border: 1.5px solid var(--border); border-radius: 14px;
-            padding: 12px 8px; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: all 0.15s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
+        .btn-add { background-color: #ffffff; color: var(--text-main); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-add:hover { border-color: #bbbbbc; }
         .btn-add:active { transform: scale(0.95); background-color: #f4f7f9; }
 
-        /* Рабочий стол */
-        .workspace {
-            min-height: 120px; background-color: #f8fafc;
-            border: 2px dashed #cbd5e1; border-radius: 16px;
-            padding: 16px; display: flex; flex-wrap: wrap;
-            gap: 10px; justify-content: center; align-items: center;
+        /* ВИЗУАЛЬНАЯ СБОРКА ЦЕПИ */
+        .workspace-wrapper {
+            background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px;
+            padding: 20px 10px; overflow-x: auto; /* Позволяет прокручивать длинную цепь */
+            position: relative; min-height: 140px;
         }
        
-        /* Фишки на столе */
+        .circuit-container {
+            display: flex; align-items: flex-start; justify-content: flex-start;
+            min-width: max-content; margin: 0 auto; padding-bottom: 10px;
+        }
+
+        .circuit-node { display: flex; flex-direction: column; align-items: center; position: relative; }
+       
         .chip {
-            background-color: #ffffff; padding: 10px 14px;
-            border-radius: 12px; font-size: 14px; font-weight: 600;
-            display: flex; align-items: center; gap: 8px;
-            border: 1.5px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #ffffff; padding: 10px 14px; border-radius: 12px;
+            font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px;
+            border: 2px solid var(--primary); box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2;
+            white-space: nowrap;
         }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
        
-        .chip-delete { background: none; border: none; color: var(--danger); font-size: 20px; padding: 0 0 0 4px; cursor: pointer; font-weight: bold; line-height: 1;}
-
-        /* ЭКРАН ПРИБОРОВ (Стилизация под настоящий дисплей) */
-        .display-screen {
-            display: flex; justify-content: space-between;
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-            color: #10b981;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 24px; border-radius: 16px;
-            font-size: 26px; font-weight: bold;
-            box-shadow: inset 0 4px 15px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.1);
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            letter-spacing: 2px;
-            border: 2px solid #334155;
+        .chip-parallel {
+            border-color: #10b981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); margin-top: -2px;
         }
 
+        .wire-horizontal { width: 30px; height: 3px; background: var(--wire); margin-top: 20px; border-radius: 2px;}
+       
+        /* Провода для вольтметра */
+        .parallel-wires-group { display: flex; justify-content: space-between; width: 70%; }
+        .wire-vertical { width: 3px; height: 20px; background: var(--wire); }
+
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .chip-delete { background: none; border: none; color: var(--danger); font-size: 20px; padding: 0 0 0 4px; cursor: pointer; font-weight: bold; line-height: 1;}
+        .bulb-indicator { width: 14px; height: 14px; border-radius: 50%; background-color: #444; transition: all 0.3s ease; display: inline-block; }
+
+        .display-screen { display: flex; justify-content: space-between; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); color: #10b981; font-family: 'Courier New', Courier, monospace; padding: 24px; border-radius: 16px; font-size: 26px; font-weight: bold; box-shadow: inset 0 4px 15px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.1); text-shadow: 0 0 10px rgba(16, 185, 129, 0.5); letter-spacing: 2px; border: 2px solid #334155; }
         .meter-label { font-size: 14px; color: #64748b; font-family: 'Inter', sans-serif; letter-spacing: 0; text-shadow: none; margin-bottom: 4px; display: block; }
         .meter-box { text-align: center; }
-
-        .bulb-indicator { width: 14px; height: 14px; border-radius: 50%; background-color: #444; transition: all 0.3s ease; display: inline-block; }
 
         .rheostat-box { width: 100%; margin-top: 16px; display: none; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
         .rheostat-box label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; display: block; }
         input[type="range"] { width: 100%; margin-top: 4px; accent-color: var(--primary); }
 
         .controls { display: flex; gap: 10px; margin-top: 16px; }
-        .btn-control {
-            flex: 1; padding: 14px; border-radius: 14px; border: none;
-            font-weight: 700; cursor: pointer; font-size: 14px;
-            transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
+        .btn-control { flex: 1; padding: 14px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; font-size: 14px; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
         .btn-key-open { background: #ffffff; color: var(--text-main); border: 1.5px solid var(--border); }
         .btn-key-closed { background: var(--success); color: white; border: 1.5px solid var(--success); box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3); }
         .btn-clear { background: #fff0f0; color: var(--danger); border: 1.5px solid #ffdcdc; }
-       
         .btn-control:active { transform: scale(0.96); }
 
         .feedback-text { text-align: center; font-weight: 500; font-size: 15px; margin-top: 16px; min-height: 20px; line-height: 1.5; padding: 10px; border-radius: 10px;}
@@ -212,22 +140,27 @@
     </div>
 
     <div class="card">
-        <div class="card-title">🛠 2. Коробка с деталями</div>
+        <div class="card-title">🛠 2. Детали (Собирайте по порядку)</div>
         <div class="grid">
-            <button class="btn-add" onclick="addElement('battery', '🔋 Источник')">🔋 Источник</button>
-            <button class="btn-add" onclick="addElement('key', '🔌 Ключ')">🔌 Ключ</button>
-            <button class="btn-add" onclick="addElement('resistor', '📦 Резистор')">📦 Резистор</button>
-            <button class="btn-add" onclick="addElement('bulb', '💡 Лампочка')">💡 Лампочка</button>
-            <button class="btn-add" onclick="addElement('rheostat', '🎛 Реостат')">🎛 Реостат</button>
-            <button class="btn-add" onclick="addElement('ammeter', '⏱ Амперметр')">⏱ Амперметр</button>
-            <button class="btn-add" onclick="addElement('voltmeter', '📊 Вольтметр')">📊 Вольтметр</button>
+            <button class="btn-add" onclick="addSeries('battery', '🔋 Источник')">🔋 Источник</button>
+            <button class="btn-add" onclick="addSeries('key', '🔌 Ключ')">🔌 Ключ</button>
+            <button class="btn-add" onclick="addSeries('resistor', '📦 Резистор')">📦 Резистор</button>
+            <button class="btn-add" onclick="addSeries('bulb', '💡 Лампочка')">💡 Лампочка</button>
+            <button class="btn-add" onclick="addSeries('rheostat', '🎛 Реостат')">🎛 Реостат</button>
+            <button class="btn-add" onclick="addSeries('ammeter', '⏱ Амперметр')">⏱ Амперметр</button>
+            <button class="btn-add" onclick="toggleVoltmeter()" style="border-color: #10b981; color: #10b981;">📊 Вольтметр (Параллельно)</button>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-title">🔧 3. Рабочий стол</div>
-        <div id="workspace" class="workspace">
-            <span style="color: var(--text-muted); font-size: 14px; font-weight: 500; text-align: center;">Стол пуст.<br>Соберите цепь согласно тексту задания.</span>
+        <div class="card-title">🔧 3. Схема цепи</div>
+       
+        <div class="workspace-wrapper" id="workspaceWrapper">
+            <div class="circuit-container" id="circuitContainer">
+                <span style="color: var(--text-muted); font-size: 14px; font-weight: 500; text-align: center; width: 100%; margin-top: 30px;">
+                    Добавляйте элементы, чтобы собрать цепь.
+                </span>
+            </div>
         </div>
 
         <div id="rheostatBox" class="rheostat-box">
@@ -235,17 +168,17 @@
             <input type="range" id="rheoSlider" min="0" max="15" step="1" value="5" oninput="calculatePhysics()">
         </div>
 
-        <div id="voltmeterBox" class="rheostat-box">
-            <label>Куда подключен вольтметр?</label>
-            <select id="voltmeterTarget" onchange="calculatePhysics()">
-                <option value="resistor">Параллельно Резистору</option>
-                <option value="bulb">Параллельно Лампочке</option>
+        <div id="voltmeterBox" class="rheostat-box" style="border-color: #10b981; background: #f0fdf4;">
+            <label style="color: #047857;">К чему подключен вольтметр?</label>
+            <select id="voltmeterTarget" onchange="renderCircuit()">
+                <option value="resistor">К Резистору</option>
+                <option value="bulb">К Лампочке</option>
             </select>
         </div>
 
         <div class="controls">
             <button id="keyBtn" class="btn-control btn-key-open" onclick="toggleKey()">Ключ отсутствует</button>
-            <button class="btn-control btn-clear" onclick="clearTable()">🗑 Очистить всё</button>
+            <button class="btn-control btn-clear" onclick="clearCircuit()">🗑 Разобрать цепь</button>
         </div>
     </div>
 
@@ -286,7 +219,8 @@
         }
 
         const VOLTAGE = 4.5;
-        let circuit = [];
+        let seriesChain = []; // Массив последовательной цепи
+        let hasVoltmeter = false;
         let keyClosed = false;
        
         let currentTaskType = 'resistor';
@@ -296,94 +230,144 @@
         function generateTask() {
             currentTaskType = document.getElementById('taskSelect').value;
             let ticketHtml = "";
-           
             secretR = Math.floor(Math.random() * 11) + 5;
             secretTime = Math.floor(Math.random() * 3) + 1;
 
-            let footer = `
-                <ul class="oge-list">
-                    В ответе:<br>
-                    <li>1) зарисуйте схему экспериментальной установки;</li>
-                    <li>2) запишите формулу для расчета искомой величины;</li>
-                    <li>3) укажите результаты измерений напряжения и силы тока;</li>
-                    <li>4) запишите <b>числовое значение</b> полученной величины.</li>
-                </ul>`;
+            let footer = `<ul class="oge-list">В ответе:<br><li>1) зарисуйте схему экспериментальной установки;</li><li>2) запишите формулу для расчета искомой величины;</li><li>3) укажите результаты измерений напряжения и силы тока;</li><li>4) запишите <b>числовое значение</b> полученной величины.</li></ul>`;
 
             if (currentTaskType === 'resistor') {
                 ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для определения электрического сопротивления резистора.<br><br>Установите с помощью реостата любую силу тока. Определите электрическое сопротивление резистора.` + footer;
                 document.getElementById('userAnswer').placeholder = "Сопротивление R (Ом)";
             } else if (currentTaskType === 'power') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и <b>лампочку</b>, соберите установку для измерения мощности электрического тока.<br><br>Определите мощность электрического тока, выделяемую на лампочке при любом положении реостата.` + footer;
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и <b>лампочку</b>, соберите установку для измерения мощности электрического тока.<br><br>Определите мощность тока, выделяемую на лампочке при любом положении реостата.` + footer;
                 document.getElementById('userAnswer').placeholder = "Мощность P (Вт)";
             } else if (currentTaskType === 'work') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для измерения работы электрического тока.<br><br>Определите работу электрического тока, совершаемую на резисторе за время <b>t = ${secretTime} мин</b>.` + footer;
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для измерения работы электрического тока.<br><br>Определите работу тока, совершаемую на резисторе за время <b>t = ${secretTime} мин</b>.` + footer;
                 document.getElementById('userAnswer').placeholder = "Работа A (Дж)";
             } else if (currentTaskType === 'dependence') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для исследования зависимости силы тока в проводнике от напряжения на его концах.<br><br>Измерьте силу тока и напряжение при разных положениях ползунка. <b>Вычислите сопротивление</b> резистора.` + footer;
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для исследования зависимости силы тока от напряжения.<br><br>Измерьте силу тока и напряжение. <b>Вычислите сопротивление</b> резистора.` + footer;
                 document.getElementById('userAnswer').placeholder = "Сопротивление R (Ом)";
             }
 
             document.getElementById('ticketText').innerHTML = ticketHtml;
-            clearTable();
+            clearCircuit();
         }
 
-        function addElement(id, name) {
-            if (circuit.find(el => el.id === id)) {
+        // Добавление элемента в последовательную цепь
+        function addSeries(id, name) {
+            if (seriesChain.find(el => el.id === id)) {
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
-                showResult("⚠️ Этот элемент уже добавлен!", "var(--danger)", "#fff0f0");
+                showResult("⚠️ Этот элемент уже в цепи!", "var(--danger)", "#fff0f0");
                 return;
             }
-            circuit.push({ id, name });
+            seriesChain.push({ id, name });
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            renderTable();
+            renderCircuit();
         }
 
-        function removeElement(id) {
-            circuit = circuit.filter(el => el.id !== id);
+        // Вкл/Выкл Вольтметра (Параллельно)
+        function toggleVoltmeter() {
+            if (hasVoltmeter) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                showResult("⚠️ Вольтметр уже на столе!", "var(--danger)", "#fff0f0");
+                return;
+            }
+            hasVoltmeter = true;
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            renderTable();
+            renderCircuit();
         }
 
-        function clearTable() {
-            circuit = [];
+        function removeSeriesElement(id) {
+            seriesChain = seriesChain.filter(el => el.id !== id);
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            renderCircuit();
+        }
+       
+        function removeVoltmeter() {
+            hasVoltmeter = false;
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            renderCircuit();
+        }
+
+        function clearCircuit() {
+            seriesChain = [];
+            hasVoltmeter = false;
             keyClosed = false;
             document.getElementById('userAnswer').value = '';
-            document.getElementById('feedback').innerText = '';
-            document.getElementById('feedback').style.background = 'transparent';
-            renderTable();
+            showResult("", "transparent", "transparent");
+            renderCircuit();
         }
 
         function toggleKey() {
-            if (!circuit.find(el => el.id === 'key')) {
-                showResult("⚠️ Добавьте ключ на стол!", "var(--danger)", "#fff0f0");
+            if (!seriesChain.find(el => el.id === 'key')) {
+                showResult("⚠️ Добавьте ключ в цепь!", "var(--danger)", "#fff0f0");
                 return;
             }
             keyClosed = !keyClosed;
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-            renderTable();
+            renderCircuit();
         }
 
-        function renderTable() {
-            let ws = document.getElementById('workspace');
-            ws.innerHTML = "";
+        function renderCircuit() {
+            let container = document.getElementById('circuitContainer');
+            container.innerHTML = "";
 
-            if (circuit.length === 0) {
-                ws.innerHTML = `<span style="color: var(--text-muted); font-size: 14px; font-weight: 500; text-align: center;">Стол пуст.<br>Соберите цепь согласно тексту задания.</span>`;
+            if (seriesChain.length === 0 && !hasVoltmeter) {
+                container.innerHTML = `<span style="color: var(--text-muted); font-size: 14px; font-weight: 500; text-align: center; width: 100%; margin-top: 30px;">Цепь пуста. Добавляйте элементы по порядку.</span>`;
             } else {
-                circuit.forEach(el => {
-                    let chip = document.createElement('div');
-                    chip.className = 'chip';
+                let targetId = document.getElementById('voltmeterTarget').value;
+
+                seriesChain.forEach((el, index) => {
+                    let node = document.createElement('div');
+                    node.className = 'circuit-node';
+                   
+                    // Основной чип
                     let bulbHtml = el.id === 'bulb' ? `<div class="bulb-indicator" id="bulbGlow"></div>` : "";
-                    chip.innerHTML = `${bulbHtml} ${el.name} <button class="chip-delete" onclick="removeElement('${el.id}')">&times;</button>`;
-                    ws.appendChild(chip);
+                    let mainChip = `<div class="chip">${bulbHtml} ${el.name} <button class="chip-delete" onclick="removeSeriesElement('${el.id}')">&times;</button></div>`;
+                   
+                    // Если сюда подключен вольтметр (Параллельно)
+                    let parallelHtml = "";
+                    if (hasVoltmeter && el.id === targetId) {
+                        parallelHtml = `
+                        <div class="parallel-wires-group">
+                            <div class="wire-vertical"></div>
+                            <div class="wire-vertical"></div>
+                        </div>
+                        <div class="chip chip-parallel">📊 Вольтметр <button class="chip-delete" onclick="removeVoltmeter()">&times;</button></div>`;
+                    }
+                   
+                    node.innerHTML = mainChip + parallelHtml;
+                    container.appendChild(node);
+
+                    // Провод к следующему элементу
+                    if (index < seriesChain.length - 1) {
+                        let wire = document.createElement('div');
+                        wire.className = 'wire-horizontal';
+                        container.appendChild(wire);
+                    }
                 });
+
+                // Если вольтметр добавлен, но его цель еще не в цепи, рисуем его отдельно сбоку
+                if (hasVoltmeter && !seriesChain.find(el => el.id === targetId)) {
+                    if (seriesChain.length > 0) {
+                        let wire = document.createElement('div');
+                        wire.className = 'wire-horizontal';
+                        wire.style.background = "transparent"; // Невидимый отступ
+                        container.appendChild(wire);
+                    }
+                    let floatingV = document.createElement('div');
+                    floatingV.className = 'circuit-node';
+                    floatingV.innerHTML = `<div style="font-size: 10px; color: #10b981; margin-bottom:4px;">Ожидает подключения...</div><div class="chip chip-parallel">📊 Вольтметр <button class="chip-delete" onclick="removeVoltmeter()">&times;</button></div>`;
+                    container.appendChild(floatingV);
+                }
             }
 
-            document.getElementById('rheostatBox').style.display = circuit.find(el => el.id === 'rheostat') ? 'block' : 'none';
-            document.getElementById('voltmeterBox').style.display = circuit.find(el => el.id === 'voltmeter') ? 'block' : 'none';
+            // Управление UI
+            document.getElementById('rheostatBox').style.display = seriesChain.find(el => el.id === 'rheostat') ? 'block' : 'none';
+            document.getElementById('voltmeterBox').style.display = hasVoltmeter ? 'block' : 'none';
 
             let keyBtn = document.getElementById('keyBtn');
-            if (circuit.find(el => el.id === 'key')) {
+            if (seriesChain.find(el => el.id === 'key')) {
                 keyBtn.innerText = keyClosed ? "Ключ: ЗАМКНУТ" : "Ключ: РАЗОМКНУТ";
                 keyBtn.className = keyClosed ? "btn-control btn-key-closed" : "btn-control btn-key-open";
             } else {
@@ -396,17 +380,16 @@
         }
 
         function calculatePhysics() {
-            let hasBattery = circuit.find(el => el.id === 'battery');
-            let hasKey = circuit.find(el => el.id === 'key');
-            let hasAmmeter = circuit.find(el => el.id === 'ammeter');
-            let hasVoltmeter = circuit.find(el => el.id === 'voltmeter');
+            let hasBattery = seriesChain.find(el => el.id === 'battery');
+            let hasKey = seriesChain.find(el => el.id === 'key');
+            let hasAmmeter = seriesChain.find(el => el.id === 'ammeter');
 
             let totalR = 0.5;
            
-            if (circuit.find(el => el.id === 'resistor')) totalR += secretR;
-            if (circuit.find(el => el.id === 'bulb')) totalR += secretR;
+            if (seriesChain.find(el => el.id === 'resistor')) totalR += secretR;
+            if (seriesChain.find(el => el.id === 'bulb')) totalR += secretR;
            
-            if (circuit.find(el => el.id === 'rheostat')) {
+            if (seriesChain.find(el => el.id === 'rheostat')) {
                 let rheoVal = parseInt(document.getElementById('rheoSlider').value);
                 document.getElementById('rheoValue').innerText = rheoVal;
                 totalR += rheoVal;
@@ -419,15 +402,17 @@
             if (isCircuitWorking) {
                 currentI = VOLTAGE / totalR;
                 let vTarget = document.getElementById('voltmeterTarget').value;
-                if (vTarget === 'resistor' && circuit.find(el => el.id === 'resistor')) {
-                    currentU = currentI * secretR;
-                } else if (vTarget === 'bulb' && circuit.find(el => el.id === 'bulb')) {
-                    currentU = currentI * secretR;
+                if (hasVoltmeter) {
+                    if (vTarget === 'resistor' && seriesChain.find(el => el.id === 'resistor')) {
+                        currentU = currentI * secretR;
+                    } else if (vTarget === 'bulb' && seriesChain.find(el => el.id === 'bulb')) {
+                        currentU = currentI * secretR;
+                    }
                 }
             }
 
             document.getElementById('displayI').innerText = (hasAmmeter && isCircuitWorking) ? currentI.toFixed(2) : "--";
-            document.getElementById('displayU').innerText = (hasVoltmeter && isCircuitWorking) ? currentU.toFixed(2) : "--";
+            document.getElementById('displayU').innerText = (hasVoltmeter && isCircuitWorking && currentU > 0) ? currentU.toFixed(2) : "--";
 
             let bulbGlow = document.getElementById('bulbGlow');
             if (bulbGlow) {
@@ -459,12 +444,12 @@
                 return;
             }
 
-            if (currentTaskType === 'power' && !circuit.find(el => el.id === 'bulb')) {
+            if (currentTaskType === 'power' && !seriesChain.find(el => el.id === 'bulb')) {
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                showResult("⚠️ Внимательно читай задание! В цепи должна быть ЛАМПОЧКА, а не резистор.", "var(--danger)", "#fff0f0");
+                showResult("⚠️ Внимательно читай задание! В цепи должна быть ЛАМПОЧКА.", "var(--danger)", "#fff0f0");
                 return;
             }
-            if (currentTaskType !== 'power' && !circuit.find(el => el.id === 'resistor')) {
+            if (currentTaskType !== 'power' && !seriesChain.find(el => el.id === 'resistor')) {
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 showResult("⚠️ Внимательно читай задание! В цепи должен быть РЕЗИСТОР.", "var(--danger)", "#fff0f0");
                 return;
@@ -473,9 +458,9 @@
             let I = parseFloat(document.getElementById('displayI').innerText);
             let U = parseFloat(document.getElementById('displayU').innerText);
 
-            if (isNaN(I) || isNaN(U) || I <= 0) {
+            if (isNaN(I) || isNaN(U) || I <= 0 || U <= 0) {
                 if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
-                showResult("⚠️ Цепь не собрана. Сначала проведи измерения!", "var(--danger)", "#fff0f0");
+                showResult("⚠️ Цепь собрана не до конца или приборы не показывают значения. Проверь схему!", "var(--danger)", "#fff0f0");
                 return;
             }
 
