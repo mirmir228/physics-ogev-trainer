@@ -1,0 +1,55 @@
+document.getElementById('voltValue').innerText = "0.0";
+            document.getElementById('ampValue').innerText = "0.00";
+            document.getElementById('userAnswer').value = "";
+            document.getElementById('result').innerText = "";
+        }
+
+        function makeMeasurement() {
+            // Добавляем небольшую случайную погрешность измерений (как в реальном приборе)
+            let voltageSource = 6.0; // Источник 6В
+            trueI = voltageSource / currentR;
+            trueU = trueI * currentR;
+
+            // Погрешность амперметра/вольтметра
+            let errorU = (Math.random() - 0.5) * 0.2;
+            let errorI = (Math.random() - 0.5) * 0.02;
+
+            let measuredU = Math.max(0, trueU + errorU).toFixed(1);
+            let measuredI = Math.max(0.01, trueI + errorI).toFixed(2);
+
+            document.getElementById('voltValue').innerText = measuredU;
+            document.getElementById('ampValue').innerText = measuredI;
+        }
+
+        function checkAnswer() {
+            let userVal = parseFloat(document.getElementById('userAnswer').value);
+            let resultDiv = document.getElementById('result');
+
+            if (isNaN(userVal)) {
+                resultDiv.style.color = "orange";
+                resultDiv.innerText = "Пожалуйста, введите число!";
+                return;
+            }
+
+            // Допускаем погрешность в пределах 5%
+            let diff = Math.abs(userVal - currentR);
+            if (diff <= currentR * 0.07) {
+                resultDiv.style.color = "#00aa00";
+                resultDiv.innerText = "🎉 Верно! Отличная работа!";
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
+            } else {
+                resultDiv.style.color = "#cc0000";
+                resultDiv.innerText = ❌ Неверно. Правильное значение около ${currentR} Ом.;
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+            }
+        }
+
+        // Инициализация при старте
+        generateTask();
+    </script>
+</body>
+</html>
