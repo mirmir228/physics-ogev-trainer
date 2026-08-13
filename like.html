@@ -1,429 +1,429 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Лаборатория ОГЭ</title>
-    <!-- Подключаем Telegram Web App API -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-   
-    <style>
-        :root {
-            --bg-color: var(--tg-theme-bg-color, #f4f4f9);
-            --text-color: var(--tg-theme-text-color, #1a1a1a);
-            --accent: var(--tg-theme-button-color, #007aff);
-            --accent-text: var(--tg-theme-button-text-color, #ffffff);
-            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
-            --hint: var(--tg-theme-hint-color, #8e8e93);
-            --success: #34c759;
-            --error: #ff3b30;
-            --border: rgba(0, 0, 0, 0.1);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Лаборатория ОГЭ</title>
+    <!-- Подключаем Telegram Web App API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+   
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #f4f4f9);
+            --text-color: var(--tg-theme-text-color, #1a1a1a);
+            --accent: var(--tg-theme-button-color, #007aff);
+            --accent-text: var(--tg-theme-button-text-color, #ffffff);
+            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
+            --hint: var(--tg-theme-hint-color, #8e8e93);
+            --success: #34c759;
+            --error: #ff3b30;
+            --border: rgba(0, 0, 0, 0.1);
+        }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 16px 16px 80px 16px;
-            display: flex; flex-direction: column; gap: 16px;
-        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px 16px 80px 16px;
+            display: flex; flex-direction: column; gap: 16px;
+        }
 
-        .header { text-align: center; margin-bottom: 4px; }
-        .header h1 { font-size: 22px; margin: 0 0 4px 0; color: var(--text-color); }
-        .header p { font-size: 14px; margin: 0; color: var(--hint); }
+        .header { text-align: center; margin-bottom: 4px; }
+        .header h1 { font-size: 22px; margin: 0 0 4px 0; color: var(--text-color); }
+        .header p { font-size: 14px; margin: 0; color: var(--hint); }
 
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 16px; padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid var(--border);
-        }
-        .card-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px; padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        .card-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
 
-        select, input[type="number"] {
-            width: 100%; padding: 12px;
-            border: 1px solid var(--border); border-radius: 10px;
-            background: var(--bg-color); color: var(--text-color);
-            font-size: 15px; outline: none; margin-bottom: 8px;
-            font-family: inherit;
-        }
-        select:focus, input[type="number"]:focus { border-color: var(--accent); }
+        select, input[type="number"] {
+            width: 100%; padding: 12px;
+            border: 1px solid var(--border); border-radius: 10px;
+            background: var(--bg-color); color: var(--text-color);
+            font-size: 15px; outline: none; margin-bottom: 8px;
+            font-family: inherit;
+        }
+        select:focus, input[type="number"]:focus { border-color: var(--accent); }
 
-        /* СТИЛЬ КИМ ОГЭ (Билет) */
-        .oge-ticket {
-            background-color: #ffffff;
-            color: #000000;
-            font-family: "Times New Roman", Times, serif;
-            border: 1px solid #a0a0a0;
-            padding: 16px;
-            font-size: 16px;
-            line-height: 1.4;
-            border-radius: 4px;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
-            margin-top: 8px;
-            text-align: justify;
-        }
-        .oge-ticket b { font-weight: bold; }
-        .oge-list { margin-top: 12px; padding-left: 0; list-style: none; }
-        .oge-list li { margin-bottom: 4px; }
-        .refresh-btn { margin-top: 10px; width: 100%; padding: 8px; font-size: 14px; border-radius: 8px; background: var(--secondary-bg); border: 1px solid var(--border); cursor: pointer;}
+        /* СТИЛЬ КИМ ОГЭ (Билет) */
+        .oge-ticket {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: "Times New Roman", Times, serif;
+            border: 1px solid #a0a0a0;
+            padding: 16px;
+            font-size: 16px;
+            line-height: 1.4;
+            border-radius: 4px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            margin-top: 8px;
+            text-align: justify;
+        }
+        .oge-ticket b { font-weight: bold; }
+        .oge-list { margin-top: 12px; padding-left: 0; list-style: none; }
+        .oge-list li { margin-bottom: 4px; }
+        .refresh-btn { margin-top: 10px; width: 100%; padding: 8px; font-size: 14px; border-radius: 8px; background: var(--secondary-bg); border: 1px solid var(--border); cursor: pointer;}
 
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        .btn-add { background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border); border-radius: 10px; padding: 12px 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; text-align: center; }
-        .btn-add:active { transform: scale(0.96); background-color: var(--card-bg); }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .btn-add { background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border); border-radius: 10px; padding: 12px 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; text-align: center; }
+        .btn-add:active { transform: scale(0.96); background-color: var(--card-bg); }
 
-        .workspace { min-height: 90px; background-color: var(--bg-color); border: 2px dashed var(--hint); border-radius: 12px; padding: 12px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
-        .chip { background-color: var(--card-bg); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); animation: fadeIn 0.2s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        .chip-delete { background: none; border: none; color: var(--error); font-size: 18px; padding: 0 0 0 6px; cursor: pointer; font-weight: bold; }
+        .workspace { min-height: 90px; background-color: var(--bg-color); border: 2px dashed var(--hint); border-radius: 12px; padding: 12px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+        .chip { background-color: var(--card-bg); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .chip-delete { background: none; border: none; color: var(--error); font-size: 18px; padding: 0 0 0 6px; cursor: pointer; font-weight: bold; }
 
-        .display-screen { display: flex; justify-content: space-between; background-color: #1c1c1e; color: #32d74b; font-family: 'Courier New', Courier, monospace; padding: 16px 24px; border-radius: 12px; font-size: 20px; font-weight: bold; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); letter-spacing: 1px; }
-        .bulb-indicator { width: 12px; height: 12px; border-radius: 50%; background-color: #444; transition: all 0.3s ease; display: inline-block; }
+        .display-screen { display: flex; justify-content: space-between; background-color: #1c1c1e; color: #32d74b; font-family: 'Courier New', Courier, monospace; padding: 16px 24px; border-radius: 12px; font-size: 20px; font-weight: bold; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5); letter-spacing: 1px; }
+        .bulb-indicator { width: 12px; height: 12px; border-radius: 50%; background-color: #444; transition: all 0.3s ease; display: inline-block; }
 
-        .rheostat-box { width: 100%; margin-top: 12px; display: none; }
-        .rheostat-box label { font-size: 12px; color: var(--hint); margin-bottom: 6px; display: block; }
-        input[type="range"] { width: 100%; margin-top: 4px; }
+        .rheostat-box { width: 100%; margin-top: 12px; display: none; }
+        .rheostat-box label { font-size: 12px; color: var(--hint); margin-bottom: 6px; display: block; }
+        input[type="range"] { width: 100%; margin-top: 4px; }
 
-        .controls { display: flex; gap: 8px; margin-top: 12px; }
-        .btn-control { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; background: var(--bg-color); color: var(--text-color); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 14px; }
-        .btn-control.active { background: var(--success); color: white; }
+        .controls { display: flex; gap: 8px; margin-top: 12px; }
+        .btn-control { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; background: var(--bg-color); color: var(--text-color); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 14px; }
+        .btn-control.active { background: var(--success); color: white; }
 
-        .feedback-text { text-align: center; font-weight: 600; font-size: 14px; margin-top: 12px; min-height: 20px; line-height: 1.4;}
-        #webButton { display: none; width: 100%; padding: 14px; border-radius: 12px; background: var(--accent); color: var(--accent-text); font-size: 16px; font-weight: bold; border: none; cursor: pointer; text-align: center; margin-top: 8px; }
-    </style>
+        .feedback-text { text-align: center; font-weight: 600; font-size: 14px; margin-top: 12px; min-height: 20px; line-height: 1.4;}
+        #webButton { display: none; width: 100%; padding: 14px; border-radius: 12px; background: var(--accent); color: var(--accent-text); font-size: 16px; font-weight: bold; border: none; cursor: pointer; text-align: center; margin-top: 8px; }
+    </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>⚡ Физика ОГЭ</h1>
-        <p>Виртуальная лаборатория (Комплекты 3 и 4)</p>
-    </div>
+    <div class="header">
+        <h1>⚡ Физика ОГЭ</h1>
+        <p>Виртуальная лаборатория (Комплекты 3 и 4)</p>
+    </div>
 
-    <!-- 1. Выбор задачи -->
-    <div class="card">
-        <div class="card-title">1. Выберите тему (КИМ)</div>
-        <select id="taskSelect" onchange="generateTask()">
-            <option value="resistor">Измерение сопротивления резистора</option>
-            <option value="power">Измерение мощности тока</option>
-            <option value="work">Измерение работы электрического тока</option>
-            <option value="dependence">Зависимость силы тока от напряжения</option>
-        </select>
-       
-        <div class="oge-ticket" id="ticketText">
-            <!-- Текст билета генерируется скриптом -->
-        </div>
-        <button class="refresh-btn" onclick="generateTask()">🔄 Сгенерировать другой вариант</button>
-    </div>
+    <!-- 1. Выбор задачи -->
+    <div class="card">
+        <div class="card-title">1. Выберите тему (КИМ)</div>
+        <select id="taskSelect" onchange="generateTask()">
+            <option value="resistor">Измерение сопротивления резистора</option>
+            <option value="power">Измерение мощности тока</option>
+            <option value="work">Измерение работы электрического тока</option>
+            <option value="dependence">Зависимость силы тока от напряжения</option>
+        </select>
+       
+        <div class="oge-ticket" id="ticketText">
+            <!-- Текст билета генерируется скриптом -->
+        </div>
+        <button class="refresh-btn" onclick="generateTask()">🔄 Сгенерировать другой вариант</button>
+    </div>
 
-    <!-- 2. Элементы -->
-    <div class="card">
-        <div class="card-title">2. Коробка с деталями</div>
-        <div class="grid">
-            <button class="btn-add" onclick="addElement('battery', '🔋 Источник 4.5В')">🔋 Источник</button>
-            <button class="btn-add" onclick="addElement('key', '🔌 Ключ')">🔌 Ключ</button>
-            <button class="btn-add" onclick="addElement('resistor', '📦 Резистор')">📦 Резистор</button>
-            <button class="btn-add" onclick="addElement('bulb', '💡 Лампочка')">💡 Лампочка</button>
-            <button class="btn-add" onclick="addElement('rheostat', '🎛 Реостат')">🎛 Реостат</button>
-            <button class="btn-add" onclick="addElement('ammeter', '⏱ Амперметр')">⏱ Амперметр</button>
-            <button class="btn-add" onclick="addElement('voltmeter', '📊 Вольтметр')">📊 Вольтметр</button>
-        </div>
-    </div>
+    <!-- 2. Элементы -->
+    <div class="card">
+        <div class="card-title">2. Коробка с деталями</div>
+        <div class="grid">
+            <button class="btn-add" onclick="addElement('battery', '🔋 Источник 4.5В')">🔋 Источник</button>
+            <button class="btn-add" onclick="addElement('key', '🔌 Ключ')">🔌 Ключ</button>
+            <button class="btn-add" onclick="addElement('resistor', '📦 Резистор')">📦 Резистор</button>
+            <button class="btn-add" onclick="addElement('bulb', '💡 Лампочка')">💡 Лампочка</button>
+            <button class="btn-add" onclick="addElement('rheostat', '🎛 Реостат')">🎛 Реостат</button>
+            <button class="btn-add" onclick="addElement('ammeter', '⏱ Амперметр')">⏱ Амперметр</button>
+            <button class="btn-add" onclick="addElement('voltmeter', '📊 Вольтметр')">📊 Вольтметр</button>
+        </div>
+    </div>
 
-    <!-- 3. Рабочий стол -->
-    <div class="card">
-        <div class="card-title">3. Сборка цепи</div>
-        <div id="workspace" class="workspace">
-            <span style="color: var(--hint); font-size: 13px;">Стол пуст. Добавьте элементы.</span>
-        </div>
+    <!-- 3. Рабочий стол -->
+    <div class="card">
+        <div class="card-title">3. Сборка цепи</div>
+        <div id="workspace" class="workspace">
+            <span style="color: var(--hint); font-size: 13px;">Стол пуст. Добавьте элементы.</span>
+        </div>
 
-        <div id="rheostatBox" class="rheostat-box">
-            <label>Сопротивление реостата: <span id="rheoValue">5</span> Ом</label>
-            <input type="range" id="rheoSlider" min="0" max="15" step="1" value="5" oninput="calculatePhysics()">
-        </div>
+        <div id="rheostatBox" class="rheostat-box">
+            <label>Сопротивление реостата: <span id="rheoValue">5</span> Ом</label>
+            <input type="range" id="rheoSlider" min="0" max="15" step="1" value="5" oninput="calculatePhysics()">
+        </div>
 
-        <div id="voltmeterBox" class="rheostat-box">
-            <label>Куда подключен вольтметр?</label>
-            <select id="voltmeterTarget" onchange="calculatePhysics()">
-                <option value="resistor">Параллельно Резистору</option>
-                <option value="bulb">Параллельно Лампочке</option>
-            </select>
-        </div>
+        <div id="voltmeterBox" class="rheostat-box">
+            <label>Куда подключен вольтметр?</label>
+            <select id="voltmeterTarget" onchange="calculatePhysics()">
+                <option value="resistor">Параллельно Резистору</option>
+                <option value="bulb">Параллельно Лампочке</option>
+            </select>
+        </div>
 
-        <div class="controls">
-            <button id="keyBtn" class="btn-control" onclick="toggleKey()">Ключ отсутствует</button>
-            <button class="btn-control" onclick="clearTable()" style="color: var(--error);">🗑 Очистить всё</button>
-        </div>
-    </div>
+        <div class="controls">
+            <button id="keyBtn" class="btn-control" onclick="toggleKey()">Ключ отсутствует</button>
+            <button class="btn-control" onclick="clearTable()" style="color: var(--error);">🗑 Очистить всё</button>
+        </div>
+    </div>
 
-    <!-- 4. Приборы -->
-    <div class="card">
-        <div class="card-title">Показания приборов</div>
-        <div class="display-screen">
-            <div>U = <span id="displayU">--</span> V</div>
-            <div>I = <span id="displayI">--</span> A</div>
-        </div>
-    </div>
+    <!-- 4. Приборы -->
+    <div class="card">
+        <div class="card-title">Показания приборов</div>
+        <div class="display-screen">
+            <div>U = <span id="displayU">--</span> V</div>
+            <div>I = <span id="displayI">--</span> A</div>
+        </div>
+    </div>
 
-    <!-- 5. Ответ -->
-    <div class="card">
-        <div class="card-title">4. Бланк ответов (Пункт №4)</div>
-        <input type="number" id="userAnswer" placeholder="Ваш числовой ответ...">
-        <button id="webButton" onclick="verifyAnswer()">Проверить ответ</button>
-        <div id="feedback" class="feedback-text"></div>
-    </div>
+    <!-- 5. Ответ -->
+    <div class="card">
+        <div class="card-title">4. Бланк ответов (Пункт №4)</div>
+        <input type="number" id="userAnswer" placeholder="Ваш числовой ответ...">
+        <button id="webButton" onclick="verifyAnswer()">Проверить ответ</button>
+        <div id="feedback" class="feedback-text"></div>
+    </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
 
-        if (!tg.initDataUnsafe || Object.keys(tg.initDataUnsafe).length === 0) {
-            document.getElementById('webButton').style.display = 'block';
-        } else {
-            tg.MainButton.setText('ПРОВЕРИТЬ ОТВЕТ');
-            tg.MainButton.color = '#007aff';
-            tg.MainButton.textColor = '#ffffff';
-            tg.MainButton.show();
-            tg.MainButton.onClick(verifyAnswer);
-        }
+        if (!tg.initDataUnsafe || Object.keys(tg.initDataUnsafe).length === 0) {
+            document.getElementById('webButton').style.display = 'block';
+        } else {
+            tg.MainButton.setText('ПРОВЕРИТЬ ОТВЕТ');
+            tg.MainButton.color = '#007aff';
+            tg.MainButton.textColor = '#ffffff';
+            tg.MainButton.show();
+            tg.MainButton.onClick(verifyAnswer);
+        }
 
-        const VOLTAGE = 4.5;
-        let circuit = [];
-        let keyClosed = false;
-       
-        // Глобальные переменные для текущей задачи
-        let currentTaskType = 'resistor';
-        let secretR = 10;
-        let secretTime = 1;
+        const VOLTAGE = 4.5;
+        let circuit = [];
+        let keyClosed = false;
+       
+        // Глобальные переменные для текущей задачи
+        let currentTaskType = 'resistor';
+        let secretR = 10;
+        let secretTime = 1;
 
-        // Генерация текста задания (КАК НА ОГЭ)
-        function generateTask() {
-            currentTaskType = document.getElementById('taskSelect').value;
-            let ticketHtml = "";
-           
-            // Рандомизация параметров для каждого нового билета
-            secretR = Math.floor(Math.random() * 11) + 5; // от 5 до 15 Ом
-            secretTime = Math.floor(Math.random() * 3) + 1; // 1, 2 или 3 минуты
+        // Генерация текста задания (КАК НА ОГЭ)
+        function generateTask() {
+            currentTaskType = document.getElementById('taskSelect').value;
+            let ticketHtml = "";
+           
+            // Рандомизация параметров для каждого нового билета
+            secretR = Math.floor(Math.random() * 11) + 5; // от 5 до 15 Ом
+            secretTime = Math.floor(Math.random() * 3) + 1; // 1, 2 или 3 минуты
 
-            let footer = `
-                <ul class="oge-list">
-                    В ответе:<br>
-                    <li>1) зарисуйте схему экспериментальной установки;</li>
-                    <li>2) запишите формулу для расчета искомой величины;</li>
-                    <li>3) укажите результаты измерений напряжения и силы тока;</li>
-                    <li>4) запишите <b>числовое значение</b> полученной величины.</li>
-                </ul>`;
+            let footer = `
+                <ul class="oge-list">
+                    В ответе:<br>
+                    <li>1) зарисуйте схему экспериментальной установки;</li>
+                    <li>2) запишите формулу для расчета искомой величины;</li>
+                    <li>3) укажите результаты измерений напряжения и силы тока;</li>
+                    <li>4) запишите <b>числовое значение</b> полученной величины.</li>
+                </ul>`;
 
-            if (currentTaskType === 'resistor') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для определения электрического сопротивления резистора.<br><br>
-                Установите с помощью реостата любую силу тока. Определите электрическое сопротивление резистора. Абсолютная погрешность измерения силы тока составляет ±0,1 А, напряжения ±0,2 В.` + footer;
-                document.getElementById('userAnswer').placeholder = "Сопротивление R (Ом)";
-               
-            } else if (currentTaskType === 'power') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и <b>лампочку</b>, соберите установку для измерения мощности электрического тока.<br><br>
-                Определите мощность электрического тока, выделяемую на лампочке при любом положении реостата.` + footer;
-                document.getElementById('userAnswer').placeholder = "Мощность P (Вт)";
+            if (currentTaskType === 'resistor') {
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для определения электрического сопротивления резистора.<br><br>
+                Установите с помощью реостата любую силу тока. Определите электрическое сопротивление резистора. Абсолютная погрешность измерения силы тока составляет ±0,1 А, напряжения ±0,2 В.` + footer;
+                document.getElementById('userAnswer').placeholder = "Сопротивление R (Ом)";
+               
+            } else if (currentTaskType === 'power') {
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и <b>лампочку</b>, соберите установку для измерения мощности электрического тока.<br><br>
+                Определите мощность электрического тока, выделяемую на лампочке при любом положении реостата.` + footer;
+                document.getElementById('userAnswer').placeholder = "Мощность P (Вт)";
 
-            } else if (currentTaskType === 'work') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для измерения работы электрического тока.<br><br>
-                Определите работу электрического тока, совершаемую на резисторе за время <b>t = ${secretTime} мин</b>.` + footer;
-                document.getElementById('userAnswer').placeholder = "Работа A (Дж)";
+            } else if (currentTaskType === 'work') {
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для измерения работы электрического тока.<br><br>
+                Определите работу электрического тока, совершаемую на резисторе за время <b>t = ${secretTime} мин</b>.` + footer;
+                document.getElementById('userAnswer').placeholder = "Работа A (Дж)";
 
-            } else if (currentTaskType === 'dependence') {
-                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для исследования зависимости силы тока в проводнике от напряжения на его концах.<br><br>
-                Измерьте силу тока и напряжение при разных положениях ползунка реостата. В качестве ответа <b>вычислите сопротивление</b> резистора по результатам ваших измерений.` + footer;
-                document.getElementById('userAnswer').placeholder = "Сопротивление R (Ом)";
-            }
+            } else if (currentTaskType === 'dependence') {
+                ticketHtml = `Используя источник питания, вольтметр, амперметр, ключ, реостат, соединительные провода и резистор, соберите установку для исследования зависимости силы тока в проводнике от напряжения на его концах.<br><br>
+                Измерьте силу тока и напряжение при разных положениях ползунка реостата. В качестве ответа <b>вычислите сопротивление</b> резистора по результатам ваших измерений.` + footer;
+                document.getElementById('userAnswer').placeholder = "Сопротивление R (Ом)";
+            }
 
-            document.getElementById('ticketText').innerHTML = ticketHtml;
-            clearTable();
-        }
+            document.getElementById('ticketText').innerHTML = ticketHtml;
+            clearTable();
+        }
 
-        function addElement(id, name) {
-            if (circuit.find(el => el.id === id)) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
-                showResult("⚠️ Этот элемент уже добавлен!", "var(--error)");
-                return;
-            }
-            circuit.push({ id, name });
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            renderTable();
-        }
+        function addElement(id, name) {
+            if (circuit.find(el => el.id === id)) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                showResult("⚠️ Этот элемент уже добавлен!", "var(--error)");
+                return;
+            }
+            circuit.push({ id, name });
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            renderTable();
+        }
 
-        function removeElement(id) {
-            circuit = circuit.filter(el => el.id !== id);
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            renderTable();
-        }
+        function removeElement(id) {
+            circuit = circuit.filter(el => el.id !== id);
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            renderTable();
+        }
 
-        function clearTable() {
-            circuit = [];
-            keyClosed = false;
-            document.getElementById('userAnswer').value = '';
-            document.getElementById('feedback').innerText = '';
-            renderTable();
-        }
+        function clearTable() {
+            circuit = [];
+            keyClosed = false;
+            document.getElementById('userAnswer').value = '';
+            document.getElementById('feedback').innerText = '';
+            renderTable();
+        }
 
-        function toggleKey() {
-            if (!circuit.find(el => el.id === 'key')) {
-                showResult("⚠️ Добавьте ключ на стол!", "var(--error)");
-                return;
-            }
-            keyClosed = !keyClosed;
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-            renderTable();
-        }
+        function toggleKey() {
+            if (!circuit.find(el => el.id === 'key')) {
+                showResult("⚠️ Добавьте ключ на стол!", "var(--error)");
+                return;
+            }
+            keyClosed = !keyClosed;
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            renderTable();
+        }
 
-        function renderTable() {
-            let ws = document.getElementById('workspace');
-            ws.innerHTML = "";
+        function renderTable() {
+            let ws = document.getElementById('workspace');
+            ws.innerHTML = "";
 
-            if (circuit.length === 0) {
-                ws.innerHTML = `<span style="color: var(--hint); font-size: 13px;">Стол пуст. Соберите цепь согласно тексту задания.</span>`;
-            } else {
-                circuit.forEach(el => {
-                    let chip = document.createElement('div');
-                    chip.className = 'chip';
-                    let bulbHtml = el.id === 'bulb' ? `<div class="bulb-indicator" id="bulbGlow"></div>` : "";
-                    chip.innerHTML = `${bulbHtml} ${el.name} <button class="chip-delete" onclick="removeElement('${el.id}')">&times;</button>`;
-                    ws.appendChild(chip);
-                });
-            }
+            if (circuit.length === 0) {
+                ws.innerHTML = `<span style="color: var(--hint); font-size: 13px;">Стол пуст. Соберите цепь согласно тексту задания.</span>`;
+            } else {
+                circuit.forEach(el => {
+                    let chip = document.createElement('div');
+                    chip.className = 'chip';
+                    let bulbHtml = el.id === 'bulb' ? `<div class="bulb-indicator" id="bulbGlow"></div>` : "";
+                    chip.innerHTML = `${bulbHtml} ${el.name} <button class="chip-delete" onclick="removeElement('${el.id}')">&times;</button>`;
+                    ws.appendChild(chip);
+                });
+            }
 
-            document.getElementById('rheostatBox').style.display = circuit.find(el => el.id === 'rheostat') ? 'block' : 'none';
-            document.getElementById('voltmeterBox').style.display = circuit.find(el => el.id === 'voltmeter') ? 'block' : 'none';
+            document.getElementById('rheostatBox').style.display = circuit.find(el => el.id === 'rheostat') ? 'block' : 'none';
+            document.getElementById('voltmeterBox').style.display = circuit.find(el => el.id === 'voltmeter') ? 'block' : 'none';
 
-            let keyBtn = document.getElementById('keyBtn');
-            if (circuit.find(el => el.id === 'key')) {
-                keyBtn.innerText = keyClosed ? "Ключ: ЗАМКНУТ" : "Ключ: РАЗОМКНУТ";
-                keyBtn.className = keyClosed ? "btn-control active" : "btn-control";
-            } else {
-                keyBtn.innerText = "Ключ отсутствует";
-                keyBtn.className = "btn-control";
-                keyClosed = false;
-            }
+            let keyBtn = document.getElementById('keyBtn');
+            if (circuit.find(el => el.id === 'key')) {
+                keyBtn.innerText = keyClosed ? "Ключ: ЗАМКНУТ" : "Ключ: РАЗОМКНУТ";
+                keyBtn.className = keyClosed ? "btn-control active" : "btn-control";
+            } else {
+                keyBtn.innerText = "Ключ отсутствует";
+                keyBtn.className = "btn-control";
+                keyClosed = false;
+            }
 
-            calculatePhysics();
-        }
+            calculatePhysics();
+        }
 
-        function calculatePhysics() {
-            let hasBattery = circuit.find(el => el.id === 'battery');
-            let hasKey = circuit.find(el => el.id === 'key');
-            let hasAmmeter = circuit.find(el => el.id === 'ammeter');
-            let hasVoltmeter = circuit.find(el => el.id === 'voltmeter');
+        function calculatePhysics() {
+            let hasBattery = circuit.find(el => el.id === 'battery');
+            let hasKey = circuit.find(el => el.id === 'key');
+            let hasAmmeter = circuit.find(el => el.id === 'ammeter');
+            let hasVoltmeter = circuit.find(el => el.id === 'voltmeter');
 
-            let totalR = 0.5; // Внутреннее сопротивление источника
-           
-            if (circuit.find(el => el.id === 'resistor')) totalR += secretR;
-            if (circuit.find(el => el.id === 'bulb')) totalR += secretR; // У лампочки тоже пусть будет secretR для честности
-           
-            if (circuit.find(el => el.id === 'rheostat')) {
-                let rheoVal = parseInt(document.getElementById('rheoSlider').value);
-                document.getElementById('rheoValue').innerText = rheoVal;
-                totalR += rheoVal;
-            }
+            let totalR = 0.5; // Внутреннее сопротивление источника
+           
+            if (circuit.find(el => el.id === 'resistor')) totalR += secretR;
+            if (circuit.find(el => el.id === 'bulb')) totalR += secretR; // У лампочки тоже пусть будет secretR для честности
+           
+            if (circuit.find(el => el.id === 'rheostat')) {
+                let rheoVal = parseInt(document.getElementById('rheoSlider').value);
+                document.getElementById('rheoValue').innerText = rheoVal;
+                totalR += rheoVal;
+            }
 
-            let isCircuitWorking = hasBattery && hasKey && keyClosed && (totalR > 0.5);
-            let currentI = 0;
-            let currentU = 0;
+            let isCircuitWorking = hasBattery && hasKey && keyClosed && (totalR > 0.5);
+            let currentI = 0;
+            let currentU = 0;
 
-            if (isCircuitWorking) {
-                currentI = VOLTAGE / totalR;
-                let vTarget = document.getElementById('voltmeterTarget').value;
-                if (vTarget === 'resistor' && circuit.find(el => el.id === 'resistor')) {
-                    currentU = currentI * secretR;
-                } else if (vTarget === 'bulb' && circuit.find(el => el.id === 'bulb')) {
-                    currentU = currentI * secretR;
-                }
-            }
+            if (isCircuitWorking) {
+                currentI = VOLTAGE / totalR;
+                let vTarget = document.getElementById('voltmeterTarget').value;
+                if (vTarget === 'resistor' && circuit.find(el => el.id === 'resistor')) {
+                    currentU = currentI * secretR;
+                } else if (vTarget === 'bulb' && circuit.find(el => el.id === 'bulb')) {
+                    currentU = currentI * secretR;
+                }
+            }
 
-            document.getElementById('displayI').innerText = (hasAmmeter && isCircuitWorking) ? currentI.toFixed(2) : "--";
-            document.getElementById('displayU').innerText = (hasVoltmeter && isCircuitWorking) ? currentU.toFixed(2) : "--";
+            document.getElementById('displayI').innerText = (hasAmmeter && isCircuitWorking) ? currentI.toFixed(2) : "--";
+            document.getElementById('displayU').innerText = (hasVoltmeter && isCircuitWorking) ? currentU.toFixed(2) : "--";
 
-            let bulbGlow = document.getElementById('bulbGlow');
-            if (bulbGlow) {
-                if (isCircuitWorking && currentI > 0) {
-                    let bright = Math.min(255, Math.floor(currentI * 400));
-                    bulbGlow.style.backgroundColor = `rgb(255, ${200 + bright/5}, 0)`;
-                    bulbGlow.style.boxShadow = `0 0 ${bright/15}px ${bright/25}px rgba(255, 215, 0, 0.8)`;
-                } else {
-                    bulbGlow.style.backgroundColor = '#444';
-                    bulbGlow.style.boxShadow = 'none';
-                }
-            }
-        }
+            let bulbGlow = document.getElementById('bulbGlow');
+            if (bulbGlow) {
+                if (isCircuitWorking && currentI > 0) {
+                    let bright = Math.min(255, Math.floor(currentI * 400));
+                    bulbGlow.style.backgroundColor = `rgb(255, ${200 + bright/5}, 0)`;
+                    bulbGlow.style.boxShadow = `0 0 ${bright/15}px ${bright/25}px rgba(255, 215, 0, 0.8)`;
+                } else {
+                    bulbGlow.style.backgroundColor = '#444';
+                    bulbGlow.style.boxShadow = 'none';
+                }
+            }
+        }
 
-        function showResult(text, color) {
-            let fb = document.getElementById('feedback');
-            fb.innerHTML = text; // innerHTML, чтобы можно было вставлять <br>
-            fb.style.color = color;
-        }
+        function showResult(text, color) {
+            let fb = document.getElementById('feedback');
+            fb.innerHTML = text; // innerHTML, чтобы можно было вставлять <br>
+            fb.style.color = color;
+        }
 
-        function verifyAnswer() {
-            let inputRaw = document.getElementById('userAnswer').value.replace(',', '.');
-            let answer = parseFloat(inputRaw);
+        function verifyAnswer() {
+            let inputRaw = document.getElementById('userAnswer').value.replace(',', '.');
+            let answer = parseFloat(inputRaw);
 
-            if (isNaN(answer)) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                showResult("⚠️ Введите числовой ответ в поле выше!", "var(--error)");
-                return;
-            }
+            if (isNaN(answer)) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                showResult("⚠️ Введите числовой ответ в поле выше!", "var(--error)");
+                return;
+            }
 
-            // Проверка на правильность собранной цепи по условию задачи
-            if (currentTaskType === 'power' && !circuit.find(el => el.id === 'bulb')) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                showResult("⚠️ Внимательно читай задание! В цепи должна быть ЛАМПОЧКА, а не резистор.", "var(--error)");
-                return;
-            }
-            if (currentTaskType !== 'power' && !circuit.find(el => el.id === 'resistor')) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                showResult("⚠️ Внимательно читай задание! В цепи должен быть РЕЗИСТОР.", "var(--error)");
-                return;
-            }
+            // Проверка на правильность собранной цепи по условию задачи
+            if (currentTaskType === 'power' && !circuit.find(el => el.id === 'bulb')) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                showResult("⚠️ Внимательно читай задание! В цепи должна быть ЛАМПОЧКА, а не резистор.", "var(--error)");
+                return;
+            }
+            if (currentTaskType !== 'power' && !circuit.find(el => el.id === 'resistor')) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                showResult("⚠️ Внимательно читай задание! В цепи должен быть РЕЗИСТОР.", "var(--error)");
+                return;
+            }
 
-            let I = parseFloat(document.getElementById('displayI').innerText);
-            let U = parseFloat(document.getElementById('displayU').innerText);
+            let I = parseFloat(document.getElementById('displayI').innerText);
+            let U = parseFloat(document.getElementById('displayU').innerText);
 
-            if (isNaN(I) || isNaN(U) || I <= 0) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
-                showResult("⚠️ Цепь не собрана или вольтметр подключен неправильно. Сначала проведи измерения!", "var(--error)");
-                return;
-            }
+            if (isNaN(I) || isNaN(U) || I <= 0) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
+                showResult("⚠️ Цепь не собрана или вольтметр подключен неправильно. Сначала проведи измерения!", "var(--error)");
+                return;
+            }
 
-            let correctAnswer = 0;
-            // Рассчитываем точный ответ на основе показаний, которые видит ученик (с учетом округления на экране)
-            if (currentTaskType === 'resistor' || currentTaskType === 'dependence') {
-                correctAnswer = U / I; // R = U/I
-            } else if (currentTaskType === 'power') {
-                correctAnswer = U * I; // P = U*I
-            } else if (currentTaskType === 'work') {
-                correctAnswer = U * I * (secretTime * 60); // A = U*I*t (t переводим в секунды!)
-            }
+            let correctAnswer = 0;
+            // Рассчитываем точный ответ на основе показаний, которые видит ученик (с учетом округления на экране)
+            if (currentTaskType === 'resistor' || currentTaskType === 'dependence') {
+                correctAnswer = U / I; // R = U/I
+            } else if (currentTaskType === 'power') {
+                correctAnswer = U * I; // P = U*I
+            } else if (currentTaskType === 'work') {
+                correctAnswer = U * I * (secretTime * 60); // A = U*I*t (t переводим в секунды!)
+            }
 
-            let diff = Math.abs(answer - correctAnswer);
-           
-            // Учет погрешности: даем запас 10-15%, так как приборы округляют до сотых
-            if (diff <= (correctAnswer * 0.15) || diff < 0.3) {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-                showResult(`🎉 <b>Идеально!</b><br>Твой ответ: ${answer}.<br>Ожидалось: ${correctAnswer.toFixed(1)}.`, "var(--success)");
-                if (tg.confetti) tg.confetti();
-            } else {
-                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-                // Подсказываем формулу при ошибке
-                let hint = "";
-                if(currentTaskType === 'resistor' || currentTaskType === 'dependence') hint = "Подсказка: Закон Ома R = U / I";
-                if(currentTaskType === 'power') hint = "Подсказка: P = U * I";
-                if(currentTaskType === 'work') hint = "Подсказка: A = U * I * t (не забудь перевести минуты в секунды!)";
-               
-                showResult(`❌ <b>Ошибка в расчетах!</b><br>Твой ответ: ${answer}.<br>Ожидалось около: ${correctAnswer.toFixed(1)}.<br>${hint}`, "var(--error)");
-            }
-        }
+            let diff = Math.abs(answer - correctAnswer);
+           
+            // Учет погрешности: даем запас 10-15%, так как приборы округляют до сотых
+            if (diff <= (correctAnswer * 0.15) || diff < 0.3) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                showResult(`🎉 <b>Идеально!</b><br>Твой ответ: ${answer}.<br>Ожидалось: ${correctAnswer.toFixed(1)}.`, "var(--success)");
+                if (tg.confetti) tg.confetti();
+            } else {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                // Подсказываем формулу при ошибке
+                let hint = "";
+                if(currentTaskType === 'resistor' || currentTaskType === 'dependence') hint = "Подсказка: Закон Ома R = U / I";
+                if(currentTaskType === 'power') hint = "Подсказка: P = U * I";
+                if(currentTaskType === 'work') hint = "Подсказка: A = U * I * t (не забудь перевести минуты в секунды!)";
+               
+                showResult(`❌ <b>Ошибка в расчетах!</b><br>Твой ответ: ${answer}.<br>Ожидалось около: ${correctAnswer.toFixed(1)}.<br>${hint}`, "var(--error)");
+            }
+        }
 
-        // Генерируем первое задание при загрузке страницы
-        generateTask();
-    </script>
+        // Генерируем первое задание при загрузке страницы
+        generateTask();
+    </script>
 </body>
 </html>
