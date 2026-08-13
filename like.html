@@ -1,131 +1,380 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Черный ящик ОГЭ — Тренажер</title>
-    <!-- Подключаем скрипт Telegram Web App для поддержки вибрации и интеграции -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Физика ОГЭ — Тренажер</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            /* Цветовая схема Telegram (подстраивается под тему пользователя) */
+            --tg-theme-bg-color: #ffffff;
+            --tg-theme-text-color: #222222;
+            --tg-theme-hint-color: #a8a8a8;
+            --tg-theme-link-color: #2481cc;
+            --tg-theme-button-color: #3390ec;
+            --tg-theme-button-text-color: #ffffff;
+            --tg-theme-secondary-bg-color: #f4f4f9;
+
+            --accent-color: var(--tg-theme-button-color);
+            --bg-color: var(--tg-theme-bg-color);
+            --secondary-bg: var(--tg-theme-secondary-bg-color);
+            --text-color: var(--tg-theme-text-color);
+
+            --success-color: #4caf50;
+            --error-color: #f44336;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #222222);
-            padding: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            margin-top: 0;
+            text-align: center;
+            background: linear-gradient(90deg, var(--accent-color), #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* Блок выбора лабораторной */
+        .lab-selector {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 16px;
+        }
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid var(--secondary-bg);
+            border-radius: 16px;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            appearance: none; /* убираем стрелку по умолчанию */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            font-weight: 600;
+        }
+        select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Главная карточка */
         .card {
-            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            border-radius: 12px;
-            padding: 16px;
+            background: var(--secondary-bg);
+            border-radius: 24px;
+            padding: 24px;
             width: 100%;
             max-width: 400px;
             box-sizing: border-box;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
         }
-        button {
-            background-color: var(--tg-theme-button-color, #2481cc);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 8px;
-            padding: 12px;
-            width: 100%;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 8px;
+
+        .task-description {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .data-display {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: var(--bg-color);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .data-item {
+            text-align: center;
+        }
+
+        .data-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        .data-unit {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color);
+            text-transform: uppercase;
+        }
+
+        /* Поле ввода и кнопка */
+        .input-group {
+            position: relative;
+            margin-top: 16px;
         }
         input {
             width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-top: 8px;
+            padding: 16px 20px;
             font-size: 16px;
+            border: none;
+            border-radius: 16px;
+            background-color: var(--bg-color);
+            box-sizing: border-box;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        input:focus {
+            outline: 2px solid var(--accent-color);
+        }
+        input::placeholder {
+            color: var(--tg-theme-hint-color);
+            font-weight: 400;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        #result {
+            font-weight: 600;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 15px;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        /* Скрытые элементы для других лаб */
+        .params-container {
+            display: none; /* Появляется при выборе лабы */
         }
     </style>
 </head>
 <body>
 
-    <h2>Черный ящик ОГЭ</h2>
+    <h1>Физика ОГЭ</h1>
+    <div class="subtitle">Тренажер экспериментальных заданий</div>
 
-    <div class="card">
-        <p>Напряжение: <span id="voltValue">0.0</span> В</p>
-        <p>Сила тока: <span id="ampValue">0.00</span> А</p>
-        <button onclick="makeMeasurement()">Снять показания</button>
+    <!-- ВЫБОР ЛАБОРАТОРНОЙ -->
+    <div class="lab-selector">
+        <select id="labType" onchange="loadLab()">
+            <option value="" disabled selected>— Выберите работу —</option>
+            <option value="ohm">1. Измерение сопротивления</option>
+            <option value="archimedes">2. Вычисление Архимедовой силы</option>
+            <option value="spring">3. Жесткость пружины</option>
+        </select>
     </div>
 
-    <div class="card">
-        <label for="userAnswer">Введите сопротивление (Ом):</label>
-        <input type="number" id="userAnswer" placeholder="Например: 10">
+    <!-- ОСНОВНАЯ КАРТОЧКА ЗАДАНИЯ (скрыта до выбора)-->
+    <div id="mainCard" class="card" style="display: none;">
+        <div id="taskDesc" class="task-description"></div>
+
+        <!-- ОБЛАСТЬ ДЛЯ ВЫВОДА ДАННЫХ -->
+        <div id="dataBlock" class="data-display">
+            <div class="data-item">
+                <div id="val1" class="data-value">-</div>
+                <div id="unit1" class="data-unit">-</div>
+            </div>
+            <div class="data-item" id="block2" style="display: none;">
+                <div id="val2" class="data-value">-</div>
+                <div id="unit2" class="data-unit">-</div>
+            </div>
+            <div class="data-item" id="block3" style="display: none;">
+                <div id="val3" class="data-value">-</div>
+                <div id="unit3" class="data-unit">-</div>
+            </div>
+        </div>
+
+        <button onclick="generateTask()">Новые данные</button>
+
+        <div class="input-group">
+            <input type="number" id="userAnswer" placeholder="Ваш ответ...">
+        </div>
+
         <button onclick="checkAnswer()">Проверить</button>
-        <p id="result" style="font-weight: bold; margin-top: 10px;"></p>
+        <p id="result"></p>
     </div>
 
     <script>
         // Инициализация Telegram Web App
         let tg = window.Telegram.WebApp;
         tg.expand();
+        tg.ready();
 
-        // Случайное сопротивление для задачи (например, от 5 до 25 Ом)
-        let currentR = Math.floor(Math.random() * 21) + 5;
+        let currentLab = null;
+        let correctAnswer = null;
 
-        function resetTask() {
-            document.getElementById('voltValue').innerText = "0.0";
-            document.getElementById('ampValue').innerText = "0.00";
-            document.getElementById('userAnswer').value = "";
+        // Данные для случайного выбора параметров
+        const labsData = {
+            'ohm': {
+                title: "Определение сопротивления резистора",
+                desc: "Соберите цепь с источником (6В), реостатом, амперметром и вольтметром (на резисторе). Используйте показания приборов.",
+                fields: 2, // кол-во полей данных
+                units: ["В", "А"], // единицы измерения
+                calc: function() {
+                    // Случайное сопротивление от 5 до 50 Ом
+                    let r = Math.floor(Math.random() * 46) + 5;
+                    let u = 6.0; // Источник 6В
+                    let i = u / r; // Идеальный ток
+
+                    // Погрешность (±0.2В для вольтметра, ±0.02А для амперметра)
+                    let errorU = (Math.random() - 0.5) * 0.2;
+                    let errorI = (Math.random() - 0.5) * 0.02;
+
+                    let measuredU = (u + errorU).toFixed(1);
+                    let measuredI = Math.max(0.01, i + errorI).toFixed(2);
+
+                    correctAnswer = r; // Ответ в Омах
+                    return [measuredU, measuredI];
+                }
+            },
+            'archimedes': {
+                title: "Вычисление Архимедовой силы",
+                desc: "Определите Архимедову силу, действующую на тело в жидкости. Используйте динамометр (цена деления 0.1Н).",
+                fields: 2,
+                units: ["Н", "Н"], // Вес в воздухе, вес в жидкости
+                calc: function() {
+                    // Плотность жидкости (Вода=1000, Керосин=800)
+                    let liquids = [1000, 800, 1260]; // Вода, Керосин, Глицерин
+                    let rho = liquids[Math.floor(Math.random() * liquids.length)];
+                    // Объем тела (от 50 до 200 мл)
+                    let volume = (Math.floor(Math.random() * 151) + 50) / 1000000;
+                    let g = 9.8;
+
+                    let fa = rho * volume * g;
+                    // Вес в воздухе (пусть будет плотность тела 2500 кг/м3)
+                    let weightAir = (2500 * volume * g);
+                    // Вес в воде
+                    let weightLiquid = weightAir - fa;
+
+                    // Добавляем погрешность динамометра (±0.05Н)
+                    let error = (Math.random() - 0.5) * 0.1;
+
+                    // Ответ - это разница
+                    correctAnswer = fa.toFixed(2); // Ответ - сама сила
+                    return [(weightAir + error).toFixed(2), (weightLiquid + error).toFixed(2)];
+                }
+            },
+            'spring': {
+                title: "Определение жесткости пружины",
+                desc: "Подвесьте груз к пружине и измерьте удлинение (линейка, цена деления 1 мм). Масса груза 100г.",
+                fields: 2,
+                units: ["кг", "см"],
+                calc: function() {
+                    // Жесткость от 10 до 40 Н/м
+                    let k = Math.floor(Math.random() * 31) + 10;
+                    let mass = 0.1; // 100 грамм
+                    let g = 9.8;
+                    let extension = (mass * g) / k; // Удлинение в метрах
+
+                    // Переводим в см и округляем до мм (погрешность ±1 мм = ±0.1 см)
+                    let extCm = extension * 100;
+                    let error = (Math.random() - 0.5) * 0.2;
+
+                    correctAnswer = k;
+                    return [mass.toFixed(1), (extCm + error).toFixed(1)];
+                }
+            }
+        };
+
+        function loadLab() {
+            let selector = document.getElementById('labType');
+            currentLab = labsData[selector.value];
+
+            if (!currentLab) return;
+
+            // Показываем карточку
+            let card = document.getElementById('mainCard');
+            card.style.display = 'block';
+
+            // Заголовки
+            document.getElementById('taskDesc').innerText = currentLab.desc;
+
+            // Настройка полей ввода
+            document.getElementById('unit1').innerText = currentLab.units[0];
+            document.getElementById('unit2').innerText = currentLab.units[1];
+
+            // Показываем/скрываем блоки данных
+            document.getElementById('block2').style.display = currentLab.fields > 1 ? 'block' : 'none';
+            document.getElementById('block3').style.display = currentLab.fields > 2 ? 'block' : 'none';
+
+            // Сбрасываем старый ответ и результат
             document.getElementById('result').innerText = "";
+            document.getElementById('userAnswer').value = "";
+
+            generateTask();
+
+            // Прокручиваем вниз к карточке
+            card.scrollIntoView({behavior: "smooth"});
         }
 
-        function makeMeasurement() {
-            // Добавляем небольшую случайную погрешность измерений (как в реальном приборе)
-            let voltageSource = 6.0; // Источник 6В
-            let trueI = voltageSource / currentR;
-            let trueU = trueI * currentR;
+        function generateTask() {
+            if (!currentLab) return;
 
-            // Погрешность амперметра/вольтметра
-            let errorU = (Math.random() - 0.5) * 0.2;
-            let errorI = (Math.random() - 0.5) * 0.02;
+            let values = currentLab.calc();
 
-            let measuredU = Math.max(0, trueU + errorU).toFixed(1);
-            let measuredI = Math.max(0.01, trueI + errorI).toFixed(2);
+            document.getElementById('val1').innerText = values[0];
+            if (currentLab.fields > 1) document.getElementById('val2').innerText = values[1];
+            if (currentLab.fields > 2) document.getElementById('val3').innerText = values[2];
 
-            document.getElementById('voltValue').innerText = measuredU;
-            document.getElementById('ampValue').innerText = measuredI;
+            document.getElementById('result').innerText = "";
+            document.getElementById('userAnswer').value = "";
         }
 
         function checkAnswer() {
-            let userVal = parseFloat(document.getElementById('userAnswer').value);
+            let userValStr = document.getElementById('userAnswer').value.replace(',', '.');
+            let userVal = parseFloat(userValStr);
             let resultDiv = document.getElementById('result');
 
             if (isNaN(userVal)) {
-                resultDiv.style.color = "orange";
-                resultDiv.innerText = "Пожалуйста, введите число!";
+                resultDiv.style.color = "var(--error-color)";
+                resultDiv.innerText = "⚠️ Пожалуйста, введите число!";
                 return;
             }
 
-            // Допускаем погрешность в пределах 7%
-            let diff = Math.abs(userVal - currentR);
-            if (diff <= currentR * 0.07) {
-                resultDiv.style.color = "#00aa00";
-                resultDiv.innerText = "🎉 Верно! Отличная работа!";
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('success');
-                }
-            } else {
-                resultDiv.style.color = "#cc0000";
-                resultDiv.innerText = "❌ Неверно. Правильное значение около " + currentR + " Ом.";
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('error');
-                }
-            }
-        }
+            // Допускаем погрешность в пределах 7% для ОГЭ
+            let diff = Math.abs(userVal - correctAnswer);
+            let tolerance = correctAnswer * 0.07;
 
-        // Инициализация при старте
-        resetTask();
-    </script>
-</body>
-</html>
+            if (diff <= tolerance) {
+                resultDiv.style.color = "var(--success-color)";
+                resultDiv.innerText = "🎉 Верно! Отличная работа!";
+
