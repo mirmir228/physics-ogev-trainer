@@ -11,6 +11,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
    
     <style>
+        /* --- ДИЗАЙН И ОФОРМЛЕНИЕ --- */
         :root {
             --bg-body: #f4f7f9; --bg-card: #ffffff; --primary: #007AFF;
             --text-main: #1c1c1e; --text-muted: #8e8e93; --border: #e5e5ea;
@@ -62,6 +63,7 @@
         .btn-add:hover { border-color: #bbbbbc; }
         .btn-add:active { transform: scale(0.95); background-color: #f4f7f9; }
 
+        /* ВИЗУАЛЬНАЯ СБОРКА ЦЕПИ */
         .workspace-wrapper {
             background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px;
             padding: 20px 10px; overflow-x: auto; position: relative; min-height: 140px;
@@ -119,6 +121,7 @@
         <p>Виртуальная лаборатория (Комплекты 3 и 4)</p>
     </div>
 
+    <!-- БЛОК 1: КИМ -->
     <div class="card">
         <div class="card-title">📝 1. Выберите тему (КИМ)</div>
         <select id="taskSelect" onchange="generateTask()">
@@ -132,6 +135,7 @@
         <button class="refresh-btn" onclick="generateTask()">🔄 Сгенерировать другой вариант</button>
     </div>
 
+    <!-- БЛОК 2: Детали -->
     <div class="card">
         <div class="card-title">🛠 2. Детали (Собирайте по порядку)</div>
         <div class="grid">
@@ -145,6 +149,7 @@
         </div>
     </div>
 
+    <!-- БЛОК 3: Рабочий стол -->
     <div class="card">
         <div class="card-title">🔧 3. Схема цепи</div>
        
@@ -175,6 +180,7 @@
         </div>
     </div>
 
+    <!-- БЛОК 4: Приборы -->
     <div class="card">
         <div class="card-title">📟 Показания приборов</div>
         <div class="display-screen">
@@ -189,6 +195,7 @@
         </div>
     </div>
 
+    <!-- БЛОК 5: Ответ -->
     <div class="card">
         <div class="card-title">✅ 4. Бланк ответов (Пункт №4)</div>
         <input type="number" id="userAnswer" placeholder="Ваш числовой ответ...">
@@ -196,6 +203,7 @@
         <div id="feedback" class="feedback-text"></div>
     </div>
 
+    <!-- --- ЛОГИКА --- -->
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -219,20 +227,17 @@
         let currentTaskType = 'resistor';
         let secretR = 10;
         let secretTime = 1;
-        let targetI = null; // Глобальная переменная требуемого тока
+        let targetI = null;
 
         function generateTask() {
             currentTaskType = document.getElementById('taskSelect').value;
             let ticketHtml = "";
             secretR = Math.floor(Math.random() * 11) + 5;
             secretTime = Math.floor(Math.random() * 3) + 1;
-
-            // С вероятностью 50% просим конкретный ток (исключая задачу на зависимость)
             targetI = null;
             let currentText = "любую силу тока";
            
             if (Math.random() > 0.5 && currentTaskType !== 'dependence') {
-                // Вычисляем реально достижимое значение тока на ползунке
                 let randomRheo = Math.floor(Math.random() * 16);
                 targetI = parseFloat((4.5 / (0.5 + secretR + randomRheo)).toFixed(2));
                 currentText = `силу тока <b>${targetI} А</b>`;
@@ -462,7 +467,6 @@
                 return;
             }
 
-            // ПРОВЕРКА ВНИМАТЕЛЬНОСТИ (Если задан конкретный ток)
             if (targetI !== null) {
                 if (Math.abs(I - targetI) > 0.01) {
                     if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
